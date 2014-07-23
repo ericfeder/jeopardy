@@ -4,7 +4,7 @@ library(XML)
 # Function to download season
 downloadSeason <- function(num){
   # Define URL
-  url <- sprintf("http://www.j-archive.com/showseason.php?season=%s", num)
+  url <- sprintf("http://www.j-archive.com/showseason.php?season=%d", num)
 
   # Download list of episodes
   episodes.raw <- readHTMLTable(url, stringsAsFactors=F, header=F)[[1]]
