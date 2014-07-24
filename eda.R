@@ -1,0 +1,1 @@
+finishes <- games.rbind[round == "FinalJeopardy", list(left.finishes=table(left.rank), center.finishes=table(center.rank), right.finishes=table(right.rank))]
