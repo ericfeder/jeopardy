@@ -1,10 +1,13 @@
 # Function to process game
-processGame <- function(game.raw, id){
-  if (length(game.raw$scores.raw) == 1) return(NULL)
+processGame <- function(game.raw, j.archive.id){
+  # Skip games with no/unusual info
+  if (id %in% 3575:3576) return("Watson Game")
+  if (length(game.raw$scores.raw) < 5) return("No game info")
+
   game <- combineValuesAndScores(game.raw$scores.raw, game.raw$game.html)
   game.with.variables <- addVariables(game)
-  game.with.variables$id <- id
-  cat("Processed game", id, "\n")
+  game.with.variables$j.archive.id <- j.archive.id
+  cat("Processed game", j.archive.id, "\n")
   return(game.with.variables)
 }
 
@@ -27,9 +30,9 @@ formatScores <- function(scores){
   combined <- rbind(data.frame(round="Jeopardy", scores[[2]][, 2:4]),
                     data.frame(round="DoubleJeopardy", scores[[3]][, 2:4]),
                     data.frame(round="FinalJeopardy", scores[[4]][1, ]))
-  null.rows <- which(combined[, 2] %in% c("", "(lock game)", "(lock tournament)", "(lock-tie game)")
-                     & combined[, 3] %in% c("", "(lock game)", "(lock tournament)", "(lock-tie game)")
-                     & combined[, 4] %in% c("", "(lock game)", "(lock tournament)", "(lock-tie game)")
+  null.rows <- which(combined[, 2] %in% c("", "(lock game)", "(lock tournament)", "(lock-tie game)", "(lock challenge)")
+                     & combined[, 3] %in% c("", "(lock game)", "(lock tournament)", "(lock-tie game)", "(lock challenge)")
+                     & combined[, 4] %in% c("", "(lock game)", "(lock tournament)", "(lock-tie game)", "(lock challenge)")
                      )
   if (length(null.rows) > 0) combined <- combined[-(null.rows), ]
 
@@ -110,4 +113,14 @@ addVariables <- function(game){
 
   # Return
   return(game)
+}
+
+# Function to find if game has one returning champion
+checkReturningChampion <- function(contestants.vec){
+  matches <- gregexpr("[0-9]{1,2}\\-day cash winnings total", contestants.vec)
+  num.champs <- sapply(matches, function(x) sum(x != -1))
+  days <- gsub("[^0-9]", "", substring(contestants.vec, sapply(matches, function(x) x[1]), sapply(matches, function(x) x[1]) + 1))
+  days <- as.numeric(replace(days, days == "", 0))
+  days[num.champs > 1] <- NA
+  return(list(days=days, num.champs=num.champs))
 }
