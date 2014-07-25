@@ -1,13 +1,13 @@
 # Function to process game
-processGame <- function(game.raw, j.archive.id){
+processGame <- function(game.raw){
   # Skip games with no/unusual info
-  if (id %in% 3575:3576) return("Watson Game")
+  if (game.raw$j.archive.id %in% 3575:3576) return("Watson Game")
   if (length(game.raw$scores.raw) < 5) return("No game info")
 
   game <- combineValuesAndScores(game.raw$scores.raw, game.raw$game.html)
   game.with.variables <- addVariables(game)
-  game.with.variables$j.archive.id <- j.archive.id
-  cat("Processed game", j.archive.id, "\n")
+  game.with.variables$j.archive.id <- game.raw$j.archive.id
+  cat("Processed game", game.raw$j.archive.id, "\n")
   return(game.with.variables)
 }
 

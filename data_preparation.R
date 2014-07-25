@@ -13,12 +13,11 @@ all.game.info <- addInfo(game.info.rbind)
 
 # Download games
 source("download_games.r")
-ids <- all.game.info$j.archive.id
-games.raw <- lapply(ids, downloadGame)
+games.raw <- lapply(all.game.info$j.archive.id, downloadGame)
 
 # Analyze games
 source("process_games.R")
-games <- mapply(FUN=processGame, games.raw, ids, SIMPLIFY=F)
+games <- lapply(games.raw, processGame)
 games.rbind <- rbindlist(games[sapply(games, is.data.frame)])
 
 # Check if returning champion
