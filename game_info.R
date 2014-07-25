@@ -25,7 +25,7 @@ downloadSeason <- function(num){
 
   # Save as single data frame
   episodes <- data.frame(season=num, episode.id, j.archive.id, date, left.contestant=contestants.list[[1]], center.contestant=contestants.list[[2]], right.contestant=contestants.list[[3]], notes=episodes.raw[, 3])
-  cat("\ndownloaded season", num)
+  cat("downloaded season", num, "\n")
 
   # Return
   return(episodes)
