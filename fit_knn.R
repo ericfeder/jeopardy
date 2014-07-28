@@ -1,5 +1,10 @@
-# Load package
+# Load packages
+library(data.table)
 library(FNN)
+
+# Subset data for model
+usable.j.archive.ids <- all.game.info[values.doubled & !tournament, j.archive.id]
+usable.points <- games.rbind[round != "FinalJeopardy" & j.archive.id %in% usable.j.archive.ids]
 
 # Fit k-NN
 model <- knn.cv(scale(usable.points[, list(middle.diff, middle.ratio, bottom.diff, bottom.ratio, money.left, dd.remaining)]),
@@ -12,3 +17,7 @@ game.odds <- data.table(usable.points, pred.winner=model, odds=attr(model, "prob
 rounded <- round(game.odds$odds[game.odds$pred.winner == 1] / 0.05) * 0.05
 plot(sort(unique(rounded)), tapply(game.odds$winner.rank[game.odds$pred.winner == 1], rounded / 100, FUN=function(x) table(x)[1]/sum(table(x))))
 abline(a=0, b=1)
+
+library(kknn)
+
+kknn
