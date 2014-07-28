@@ -26,3 +26,7 @@ all.game.info$champ.days <- returning.champion$days
 
 # Extract game results
 game.results <- games.rbind[round == "FinalJeopardy", list(j.archive.id, left, center, right, left.rank, center.rank, right.rank)]
+
+# Subset data for model building
+usable.j.archive.ids <- all.game.info[values.doubled & !tournament, j.archive.id]
+usable.points <- games.rbind[round != "FinalJeopardy" & j.archive.id %in% usable.j.archive.ids]
