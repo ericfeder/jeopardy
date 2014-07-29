@@ -88,6 +88,7 @@ addVariables <- function(game){
   # Calculate money left
   game$money.left <- 54000 - cumsum(game$value)
   game$money.left[game$round == "DoubleJeopardy"] <- 36000 - cumsum(game$value[game$round == "DoubleJeopardy"])
+  game$money.left[nrow(game) - 1] <- 0
 
   # Calculate daily doubles left
   game$dd.remaining <- 3 - cumsum(game$daily.double)
