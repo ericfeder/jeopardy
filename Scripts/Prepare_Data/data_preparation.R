@@ -2,18 +2,21 @@
 library(data.table)
 
 # Download seasons
-source("game_info.R")
+source("Scripts/Prepare_Data/game_info.R")
 season.nums <- 1:30
 game.info <- lapply(season.nums, downloadSeason)
 game.info.rbind <- rbindlist(game.info)
 game.info.rbind <- game.info.rbind[order(date), ]
 
 # Download games
-source("download_games.r")
-games.raw <- lapply(all.game.info$j.archive.id, downloadGame)
+source("Scripts/Prepare_Data/download_games.r")
+games.raw <- lapply(game.info.rbind$j.archive.id, downloadGame)
+
+# Save to workspace
+save(games.raw, file="Workspaces/raw_games.RData")
 
 # Analyze games
-source("process_games.R")
+source("Scripts/Prepare_Data/process_games.R")
 games <- lapply(games.raw, processGame)
 games.rbind <- rbindlist(games[sapply(games, is.data.frame)])
 setnames(games.rbind, 2:4, c("left", "center", "right"))
@@ -30,3 +33,6 @@ game.results <- games.rbind[round == "FinalJeopardy", list(j.archive.id, left, c
 # Subset data for model building
 usable.j.archive.ids <- all.game.info[values.doubled & !tournament, j.archive.id]
 usable.points <- games.rbind[round != "FinalJeopardy" & j.archive.id %in% usable.j.archive.ids]
+
+# Save to workspace
+save(games.rbind, all.game.info, game.results, usable.points, file="Workspaces/prepared_data.RData")
