@@ -83,6 +83,14 @@ returnValues <- function(html){
   return(df)
 }
 
+# Function to set both min and max of vector
+setBounds <- function(vec, min, max, na.to.1){
+  if (na.to.1) vec[is.na(vec)] <- 1
+  nothing.below.min <- pmax(0, vec)
+  nothing.above.max <- pmin(max, nothing.below.min)
+  return(nothing.above.max)
+}
+
 # Function to add variables to game
 addVariables <- function(game){
   # Calculate money left
@@ -104,13 +112,13 @@ addVariables <- function(game){
   colnames(ranked.scores) <- c("top.score", "middle.score", "bottom.score")
   game <- data.frame(game, ranked.scores)
 
-  # Add differences and ratios
+  # Add differences
   game$middle.diff <- game$top.score - game$middle.score
   game$bottom.diff <- game$top.score - game$bottom.score
-  game$middle.ratio <- pmax(0, game$middle.score / game$top.score)
-  game$bottom.ratio <- pmax(0, game$bottom.score / game$top.score)
-  game$middle.ratio[is.na(game$middle.ratio)] <- 1
-  game$bottom.ratio[is.na(game$bottom.ratio)] <- 1
+
+  # Add ratios
+  game$middle.ratio <- setBounds(game$middle.score / game$top.score, min=0, max=1, na.to.1=T)
+  game$bottom.ratio <- setBounds(game$bottom.score / game$top.score, min=0, max=1, na.to.1=T)
 
   # Return
   return(game)
