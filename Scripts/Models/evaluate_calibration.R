@@ -5,4 +5,6 @@ evaluateCalibration <- function(pred.odds, actual, units){
   agg <- aggregate(actual ~ rounded, FUN=mean)
   plot(agg, xlab="Estimated", ylab="Actual WP", xlim=c(0, 1), ylim=c(0, 1), pch=19)
   abline(a=0, b=1)
+  abline(h=1/3, lty=3)
+  abline(v=1/3, lty=3)
 }
