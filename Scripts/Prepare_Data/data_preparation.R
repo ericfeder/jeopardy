@@ -9,7 +9,7 @@ game.info.rbind <- rbindlist(game.info)
 game.info.rbind <- game.info.rbind[order(date), ]
 
 # Download games
-source("Scripts/Prepare_Data/download_games.r")
+source("Scripts/Prepare_Data/download_games.R")
 games.raw <- lapply(game.info.rbind$j.archive.id, downloadGame)
 
 # Save to workspace

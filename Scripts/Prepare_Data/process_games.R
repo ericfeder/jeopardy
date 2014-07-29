@@ -2,7 +2,7 @@
 processGame <- function(game.raw){
   # Skip games with no/unusual info
   if (game.raw$j.archive.id %in% 3575:3576) return("Watson Game")
-  if (length(game.raw$scores.raw) < 5) return("No game info")
+  if (length(game.raw$scores.raw) < 5 | is.null(game.raw$scores.raw) | is.null(game.raw$game.html)) return("No game info")
 
   game <- combineValuesAndScores(game.raw$scores.raw, game.raw$game.html)
   game.with.variables <- addVariables(game)
