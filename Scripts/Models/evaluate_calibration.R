@@ -11,10 +11,14 @@ evaluateModel <- function(scores, pred.odds, actual, j.archive.id, units){
   score.changed <- score.diffs[cbind(which(just.one.change), which.col.changed)]
   odds.changed <- odds.diffs[cbind(which(just.one.change), which.col.changed)]
 
+  # Find likelihood of winner in each row
+  row.likelihoods <- pred.odds[cbind(1:nrow(pred.odds), actual)]
+
   # Metrics
   perc.proper.direction <- mean(sign(score.changed) == sign(odds.changed))
-  leader.not.favored <- mean(pred.odds[, 1] < 0.3)
+  leader.not.favored <- mean(pred.odds[, 1] < 1/3)
   pred.ranges <- apply(preds, 2, range)
+  total.likelihood <- sum(log(row.likelihoods))
 
   # Plots
   par(mfrow=c(2, 2))
@@ -24,7 +28,7 @@ evaluateModel <- function(scores, pred.odds, actual, j.archive.id, units){
   hist(pred.odds[, 1], main="Distribution of Top Player WP%")
 
   # Return
-  return(list(perc.proper.direction=perc.proper.direction, leader.not.favored=leader.not.favored, pred.ranges=pred.ranges))
+  return(list(perc.proper.direction=perc.proper.direction, leader.not.favored=leader.not.favored, pred.ranges=pred.ranges, likelihood=total.likelihood))
 }
 
 # Function to plot model calibration
