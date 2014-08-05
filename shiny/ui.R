@@ -2,22 +2,22 @@
 shinyUI(fluidPage(
 
   #  Application title
-  titlePanel("Jeopardy Sabermetrics"),
+  titlePanel("Jeopardy Win Probability"),
 
 
   sidebarLayout(
     # Input Panel
     sidebarPanel(
-      numericInput("j.archive.id", label="J! Archive ID", value=4101),
-      selectInput("var", label="Type of Plot", choices=c("prob", "score")),
+      numericInput("j.archive.id", label="J! Archive ID", value=4479),
+      selectInput("var", choices=c("prob", "score"), selected="score", label="Metric"),
       submitButton("Submit"),
       width=2
     ),
     # Show data
     mainPanel(
+      uiOutput("game_info"),
       uiOutput("plot_ui"),
-      ggvisOutput("plot"),
-      dataTableOutput("odds.dt")
+      ggvisOutput("plot")
       )
     )
   )

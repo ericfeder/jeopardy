@@ -2,10 +2,11 @@
 library(ggvis)
 library(dplyr)
 library(data.table)
+library(reshape2)
 
 # Function to prepare data to be visualized
 prepareForVisualization <- function(id){
-  game <- data.table(preds, usable.points[j.archive.id %in% test.ids, list(left.rank, center.rank, right.rank, left, center, right, money.left, dd.remaining, j.archive.id)])[j.archive.id == id]
+  game <- data.table(gbm.model$preds, usable.points[, list(left.rank, center.rank, right.rank, left, center, right, money.left, dd.remaining, j.archive.id)])[j.archive.id == id]
   game$left.prob <- data.frame(game)[cbind(1:nrow(game), game$left.rank)]
   game$center.prob <- data.frame(game)[cbind(1:nrow(game), game$center.rank)]
   game$right.prob <- data.frame(game)[cbind(1:nrow(game), game$right.rank)]
@@ -29,6 +30,8 @@ all_values <- function(x) {
 }
 
 # Function to visualize game
-visualizeGame <- function(game){
-  game %>% ggvis(~q, ~prob, stroke=~podium) %>% layer_lines() %>% layer_points(fill=~podium, size=1) %>% add_tooltip(all_values) %>% add_axis("x", title="Question Number") %>% add_axis("y", title="Odds of Winning")
+visualizeGame <- function(game, var="prob"){
+  if (var == "prob") vis <- game %>% ggvis(~q, ~prob, stroke=~podium) %>% layer_lines() %>% layer_points(fill=~podium, size=1) %>% add_tooltip(function(df) df$prob) %>% add_axis("x", title="Question Number") %>% add_axis("y", title="Odds of Winning")
+  if (var == "score") vis <- game %>% ggvis(~q, ~score, stroke=~podium) %>% layer_lines() %>% layer_points(fill=~podium, size=1) %>% add_tooltip(function(df) df$score) %>% add_axis("x", title="Question Number") %>% add_axis("y", title="Score")
+  return(vis)
 }
