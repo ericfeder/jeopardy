@@ -17,7 +17,7 @@ evaluateModel <- function(scores, pred.odds, actual, j.archive.id, units){
   # Metrics
   perc.proper.direction <- mean(sign(score.changed) == sign(odds.changed))
   leader.not.favored <- mean(pred.odds[, 1] < 1/3)
-  pred.ranges <- apply(preds, 2, range)
+  pred.ranges <- apply(pred.odds, 2, range)
   total.likelihood <- sum(log(row.likelihoods))
 
   # Plots
