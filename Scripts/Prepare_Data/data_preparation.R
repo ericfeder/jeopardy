@@ -32,8 +32,8 @@ setnames(games.rbind, 2:4, c("left", "center", "right"))
 game.results <- games.rbind[round == "FinalJeopardy", list(j.archive.id, left, center, right, left.rank, center.rank, right.rank)]
 
 # Subset data for model building
-usable.j.archive.ids <- all.game.info[!tournament, j.archive.id]
-usable.points <- games.rbind[round != "FinalJeopardy" & j.archive.id %in% usable.j.archive.ids]
+usable.j.archive.ids <- all.game.info[tournament == F, j.archive.id]
+usable.points <- games.rbind[round != "FinalJeopardy" & j.archive.id %in% usable.j.archive.ids & !is.na(winner.rank)]
 
 # Save to workspace
 save(games.rbind, all.game.info, game.results, usable.points, file="Workspaces/prepared_data.RData")
