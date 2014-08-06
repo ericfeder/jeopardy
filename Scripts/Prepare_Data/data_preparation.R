@@ -34,8 +34,10 @@ game.results <- data.table(game.results, t(apply(-game.results[, -1, with=F], 1,
 setnames(game.results, 5:7, c("left.rank", "center.rank", "right.rank"))
 
 # Subset data for model building
+source("Scripts/Prepare_Data/prepare_for_modeling.R")
 usable.j.archive.ids <- all.game.info[tournament == F, j.archive.id]
 usable.points <- games.rbind[round != "FinalJeopardy" & j.archive.id %in% usable.j.archive.ids & !is.na(winner.rank)]
+modeling.points <- prepareForModeling(usable.points, all.game.info)
 
 # Save to workspace
-save(games.rbind, all.game.info, game.results, usable.points, file="Workspaces/prepared_data.RData")
+save(games.rbind, all.game.info, game.results, modeling.points, file="Workspaces/prepared_data.RData")
