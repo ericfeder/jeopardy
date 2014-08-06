@@ -1,20 +1,20 @@
 # Function to process game
-processGame <- function(game.raw){
+processGame <- function(game.raw, doubled){
   # Skip games with no/unusual info
   if (game.raw$j.archive.id %in% 3575:3576) return("Watson Game")
   if (length(game.raw$scores.raw) < 5 | is.null(game.raw$scores.raw) | is.null(game.raw$game.html)) return("No game info")
 
-  game <- combineValuesAndScores(game.raw$scores.raw, game.raw$game.html)
-  game.with.variables <- addVariables(game)
+  game <- combineValuesAndScores(game.raw$scores.raw, game.raw$game.html, doubled)
+  game.with.variables <- addVariables(game, doubled)
   game.with.variables$j.archive.id <- game.raw$j.archive.id
   cat("Processed game", game.raw$j.archive.id, "\n")
   return(game.with.variables)
 }
 
 # Function to combine running scores and question values
-combineValuesAndScores <- function(scores.raw, game.html){
+combineValuesAndScores <- function(scores.raw, game.html, doubled){
   scores <- formatScores(scores.raw)
-  values <- returnValues(game.html)
+  values <- returnValues(game.html, doubled)
   game <- data.frame(scores, values)
 
   # Check for errors
@@ -30,6 +30,13 @@ formatScores <- function(scores){
   combined <- rbind(data.frame(round="Jeopardy", scores[[2]][, 2:4]),
                     data.frame(round="DoubleJeopardy", scores[[3]][, 2:4]),
                     data.frame(round="FinalJeopardy", scores[[4]][1, ]))
+
+  # Add row for start of game
+  start.row <- data.frame("Start", 0, 0, 0)
+  colnames(start.row) <- colnames(combined)
+  combined <- rbind(start.row, combined)
+
+  # Exclude null rows
   null.rows <- which(combined[, 2] %in% c("", "(lock game)", "(lock tournament)", "(lock-tie game)", "(lock challenge)")
                      & combined[, 3] %in% c("", "(lock game)", "(lock tournament)", "(lock-tie game)", "(lock challenge)")
                      & combined[, 4] %in% c("", "(lock game)", "(lock tournament)", "(lock-tie game)", "(lock challenge)")
@@ -44,19 +51,20 @@ formatScores <- function(scores){
 }
 
 # Function to convert value string to value
-extractRoundAndValue <- function(string){
+extractRoundAndValue <- function(string, doubled){
 	value.string.split <- data.frame(strsplit(string, "_"), stringsAsFactors=F)
 	round <- as.vector(ifelse(value.string.split[1, ] == "J", "Jeopardy", "DoubleJeopardy"))
-	values <- as.vector(ifelse(round == "Jeopardy", 1, 2) * as.numeric(value.string.split[3, ]) * 200)
+  base <- ifelse(doubled, 200, 100)
+	values <- as.vector(ifelse(round == "Jeopardy", 1, 2) * as.numeric(value.string.split[3, ]) * base)
 	return(list(value=values, round=round))
 }
 
 # Function to return data frame of question values
-returnValues <- function(html){
+returnValues <- function(html, doubled){
   # Extract values
   value.inds <- gregexpr("id=\"clue_D*J_[0-9]_[0-9]_stuck", html)
   value.string <- substring(html, unlist(value.inds) + 9, unlist(value.inds)+attr(value.inds[[1]], "match.length") - 7)
-  values.rounds <- extractRoundAndValue(value.string)
+  values.rounds <- extractRoundAndValue(value.string, doubled)
 
   dd.inds <- gregexpr("clue_value|clue_value_daily_double", html)
   dd.string <- substring(html, unlist(dd.inds), unlist(dd.inds) + attr(dd.inds[[1]], "match.length") - 1)
@@ -69,11 +77,17 @@ returnValues <- function(html){
   # Combine to one data frame
   df <- data.frame(num.q=order, value=values.rounds$value, daily.double)
 
-  # Split into separate rounds
+  # Add indicator for separate rounds
   df$round <- values.rounds$round
 
   # Put in order
   df <- df[order(df$round, -df$num.q, decreasing=T), ]
+
+  # Add row for start of game
+  start.row <- rep(NA, 4)
+  names(start.row) <- colnames(df)
+  df <- rbind(start.row, df)
+  df$round[1] <- "Start"
 
   # Add row for Final Jeopardy
   df[nrow(df) + 1, ] <- rep(NA, 4)
@@ -92,18 +106,21 @@ setBounds <- function(vec, min, max, na.to.1){
 }
 
 # Function to add variables to game
-addVariables <- function(game){
+addVariables <- function(game, doubled){
   # Calculate money left
-  game$money.left <- 54000 - cumsum(game$value)
-  game$money.left[game$round == "DoubleJeopardy"] <- 36000 - cumsum(game$value[game$round == "DoubleJeopardy"])
+  total.money <- ifelse(doubled, 54000, 27000)
+  game$money.left <- total.money - cumsum(c(0, game$value[-1]))
+  game$money.left[game$round == "DoubleJeopardy"] <- total.money * 2/3 - cumsum(game$value[game$round == "DoubleJeopardy"])
   game$money.left[nrow(game) - 1] <- 0
 
   # Calculate daily doubles left
-  game$dd.remaining <- 3 - cumsum(game$daily.double)
+  game$dd.remaining <- 3 - cumsum(c(F, game$daily.double[-1]))
 
   # Add ranks
   ranks <- t(apply(-game[, 2:4], 1, rank, ties.method="first"))
-  ranks <- cbind(ranks, ranks[, which.max(game[nrow(game), 2:4])])
+  final.scores <- as.numeric(game[nrow(game), 2:4])
+  winner.rank <- ifelse(any(duplicated(final.scores)), NA, ranks[, which.max(final.scores)])
+  ranks <- cbind(ranks, winner.rank)
   colnames(ranks) <- c("left.rank", "center.rank", "right.rank", "winner.rank")
   game <- data.frame(game, ranks)
 
