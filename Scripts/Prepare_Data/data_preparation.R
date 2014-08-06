@@ -29,7 +29,9 @@ games.rbind <- rbindlist(games[sapply(games, is.data.frame)])
 setnames(games.rbind, 2:4, c("left", "center", "right"))
 
 # Extract game results
-game.results <- games.rbind[round == "FinalJeopardy", list(j.archive.id, left, center, right, left.rank, center.rank, right.rank)]
+game.results <- games.rbind[round == "FinalJeopardy", list(j.archive.id, left, center, right)]
+game.results <- data.table(game.results, t(apply(-game.results[, -1, with=F], 1, rank, ties.method="min")))
+setnames(game.results, 5:7, c("left.rank", "center.rank", "right.rank"))
 
 # Subset data for model building
 usable.j.archive.ids <- all.game.info[tournament == F, j.archive.id]
