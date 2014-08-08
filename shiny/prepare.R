@@ -1,0 +1,2 @@
+# Prepare rows for dropdowns
+game.info <- all.game.info %>% mutate(game.strings=sprintf("%s vs. %s vs. %s (%s)", left.contestant, center.contestant, right.contestant, date)) %>% filter(tournament == F) %>% select(season, j.archive.id, game.strings)
