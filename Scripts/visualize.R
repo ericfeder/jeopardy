@@ -6,7 +6,7 @@ library(reshape2)
 
 # Function to prepare data to be visualized
 prepareForVisualization <- function(id){
-  game <- data.table(gbm.model$preds, usable.points[, list(left.rank, center.rank, right.rank, left, center, right, money.left, dd.remaining, j.archive.id)])[j.archive.id == id]
+  game <- data.table(gbm.model$preds, modeling.points[, list(left.rank, center.rank, right.rank, left, center, right, money.left, dd.remaining, j.archive.id)])[j.archive.id == id]
   game$left.prob <- data.frame(game)[cbind(1:nrow(game), game$left.rank)]
   game$center.prob <- data.frame(game)[cbind(1:nrow(game), game$center.rank)]
   game$right.prob <- data.frame(game)[cbind(1:nrow(game), game$right.rank)]
@@ -15,18 +15,6 @@ prepareForVisualization <- function(id){
   scores.long <- melt(game, id.vars="q", measure.vars=c("left", "center", "right"), variable.name="podium", value.name="score")
   game.long <- data.frame(scores.long, prob=probs.long$prob)
   return(game.long)
-}
-
-# # Function to format tooltip
-# formatTooltip <- function(data){
-#   money.left <- formatC(game$money.left[data$q == game$q][1], big.mark=",", format="d")
-#   score <- formatC(game.long$score[data$q == game.long$q & data$podium == game.long$podium], big.mark=",", format="d")
-#   prob <- 100 * game.long$prob[data$q == game.long$q & data$podium == game.long$podium]
-#   HTML(sprintf("Money Left: $%s<br>Score: $%s<br>Prob: %.0f%%", money.left, score, prob))
-# }
-all_values <- function(x) {
-  if(is.null(x)) return(NULL)
-  paste0(names(x), ": ", format(x), collapse = "<br />")
 }
 
 # Function to visualize game
