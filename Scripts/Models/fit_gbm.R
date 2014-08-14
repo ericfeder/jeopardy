@@ -8,6 +8,9 @@ gbm.model <- gbm(factor(winner.rank) ~ middle.diff + middle.ratio + bottom.diff 
 # Predict
 gbm.model <- list(model=gbm.model, preds=predict(gbm.model, modeling.points, n.trees=700, type="response")[, , 1])
 
+# Save to workspace
+save(gbm.model, file="Workspaces/gbm_model.RData")
+
 # Evaluate calibration
 source("Scripts/Models/evaluate_calibration.R")
 with(modeling.points, evaluateModel(data.frame(top.score, middle.score, bottom.score), gbm.model$preds, winner.rank, j.archive.id, units=0.05))
