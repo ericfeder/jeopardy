@@ -47,7 +47,7 @@ hoverFunction <- "#! function(index, options, content){
 visualizeGame <- function(id, var){
   game <- prepareForVisualization(id, game.odds.split)
   players <- as.character(game[1, list(left_contestant, center_contestant, right_contestant)])
-  if (var == "score") m1 <- mPlot(x="q", y=c("left", "center", "right"), type="Line", data=game, labels=players, pointSize=0, lineWidth=2, parseTime=F, preUnits="$", hoverCallback=hoverFunction, ymin=min(game[, list(left, center, right)]) - 200, ymax=max(game[, list(left, center, right)]) + 200)
+  if (var == "score") m1 <- mPlot(x="q", y=c("left", "center", "right"), type="Line", data=game, labels=players, pointSize=0, lineWidth=2, parseTime=F, preUnits="$", hoverCallback=hoverFunction, ymin=min(game[, list(left, center, right)]) - 200, ymax=max(game[, list(left, center, right)]) + 200, smooth=F)
   if (var == "prob") m1 <- mPlot(x="q", y=c("left.prob", "center.prob", "right.prob"), type="Line", data=game, labels=players, pointSize=0, lineWidth=2, parseTime=F, hoverCallback=hoverFunction, ymin=0, ymax=1)
   return(m1)
 }
