@@ -16,8 +16,7 @@ shinyUI(fluidPage(
     # Show data
     mainPanel(
       uiOutput("game_info"),
-      uiOutput("plot_ui"),
-      ggvisOutput("plot")
+      showOutput("viz", lib="morris")
       )
     )
   )

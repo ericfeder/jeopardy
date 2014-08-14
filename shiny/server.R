@@ -1,7 +1,10 @@
 shinyServer(function(input, output, session) {
-  game <- reactive({prepareForVisualization(game.info$j.archive.id[game.info$game.strings == input$game.description])})
-  vis <- reactive({visualizeGame(game, input$var)})
-  vis %>% bind_shiny("plot", "plot_ui")
+  output$viz <- renderChart({
+    id <- game.info$j.archive.id[game.info$game.strings == input$game.description]
+    m1 <- visualizeGame(id, input$var)
+    m1$addParams(dom="viz")
+    return(m1)
+  })
 
   observe({
     season.strings <- game.info[season == input$season, game.strings]
@@ -9,9 +12,6 @@ shinyServer(function(input, output, session) {
   })
 
   output$game_info <- renderUI({
-    contestants <- all.game.info[j.archive.id == input$j.archive.id, list(left.contestant, center.contestant, right.contestant)]
-    contestants.string <- apply(contestants, 1, paste, collapse=" vs. ")
-    date <- all.game.info[j.archive.id == input$j.archive.id, date]
-    tags$h4(sprintf("%s (%s)", contestants.string, date))
+    tags$h4(input$game.description)
   })
 })
