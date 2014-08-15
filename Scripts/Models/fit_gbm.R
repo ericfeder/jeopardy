@@ -3,7 +3,7 @@ library(data.table)
 library(gbm)
 
 # Fit model
-gbm.model <- gbm(factor(winner.rank) ~ middle.diff + middle.ratio + bottom.diff + bottom.ratio + money.left + dd.remaining, data=modeling.points, distribution="multinomial", shrinkage=0.01, n.trees=1500, verbose=T)
+gbm.model <- gbm(factor(winner.rank) ~ middle.diff.adj + middle.ratio + bottom.diff.adj + bottom.ratio + money.left.adj + dd.remaining, data=modeling.points, distribution="multinomial", shrinkage=0.01, n.trees=1500, verbose=T)
 
 # Predict
 gbm.model <- list(model=gbm.model, preds=predict(gbm.model, modeling.points, n.trees=700, type="response")[, , 1])
