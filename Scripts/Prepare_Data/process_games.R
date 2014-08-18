@@ -1,11 +1,11 @@
 # Function to process game
-processGame <- function(game.raw, doubled){
+processGame <- function(game.raw, doubled, champ.days){
   # Skip games with no/unusual info
   if (game.raw$j.archive.id %in% 3575:3576) return("Watson Game")
   if (length(game.raw$scores.raw) < 5 | is.null(game.raw$scores.raw) | is.null(game.raw$game.html)) return("No game info")
 
   game <- combineValuesAndScores(game.raw$scores.raw, game.raw$game.html, doubled)
-  game.with.variables <- addVariables(game, doubled)
+  game.with.variables <- addVariables(game, doubled, champ.days)
   game.with.variables$j.archive.id <- game.raw$j.archive.id
   cat("Processed game", game.raw$j.archive.id, "\n")
   return(game.with.variables)
@@ -106,7 +106,7 @@ setBounds <- function(vec, min, max, na.to.1){
 }
 
 # Function to add variables to game
-addVariables <- function(game, doubled){
+addVariables <- function(game, doubled, champ.days){
   # Calculate money left
   total.money <- ifelse(doubled, 54000, 27000)
   game$money.left <- total.money - cumsum(c(0, game$value[-1]))
@@ -124,6 +124,11 @@ addVariables <- function(game, doubled){
   ranks <- cbind(ranks, winner.rank)
   colnames(ranks) <- c("left.rank", "center.rank", "right.rank", "winner.rank")
   game <- data.frame(game, ranks)
+
+  # Add number of days of defending champion
+  days <- data.frame(top.days=rep(0, nrow(game)), middle.days=rep(0, nrow(game)), bottom.days=rep(0, nrow(game)))
+  if (champ.days > 0 & !is.na(champ.days)) days[cbind(1:nrow(days), game$left.rank)] <- champ.days
+  game <- data.frame(game, days)
 
   # Add ranked scores
   ranked.scores <- t(apply(game[, 2:4], 1, sort, decreasing=T))

@@ -24,7 +24,7 @@ all.game.info$num.champs <- returning.champion$num.champs
 all.game.info$champ.days <- returning.champion$days
 
 # Process games
-games <- mapply(FUN=processGame, games.raw, all.game.info$values.doubled, SIMPLIFY=F)
+games <- mapply(FUN=processGame, games.raw, all.game.info$values.doubled, all.game.info$champ.days, SIMPLIFY=F)
 games.rbind <- rbindlist(games[sapply(games, is.data.frame)])
 setnames(games.rbind, 2:4, c("left", "center", "right"))
 
