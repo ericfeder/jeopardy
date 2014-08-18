@@ -50,6 +50,6 @@ visualizeGame <- function(id, var){
 
   if (var == "Score") m1 <- mPlot(x="q", y=c("left", "center", "right"), data=game, preUnits="$", ymin=min(game[, list(left, center, right)]) - 200, ymax=max(game[, list(left, center, right)]) + 200, smooth=F)
   if (var == "Odds") m1 <- mPlot(x="q", y=c("left.prob", "center.prob", "right.prob"), data=game, postUnits="%", ymin=0, ymax=100)
-  m1$set(type="Line", labels=players, pointSize=0, lineWidth=3, parseTime=F, hoverCallback=hoverFunction, lineColors=c("#8DD3C7", "#FB8072", "#BC80BD"))
+  m1$set(type="Line", labels=players, pointSize=1, lineWidth=3, parseTime=F, hoverCallback=hoverFunction, lineColors=c("#8DD3C7", "#FB8072", "#BC80BD"), pointStrokeColors=c("#8DD3C7", "#FB8072", "#BC80BD"))
   return(m1)
 }
