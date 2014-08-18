@@ -119,7 +119,8 @@ addVariables <- function(game, doubled){
   # Add ranks
   ranks <- t(apply(-game[, 2:4], 1, rank, ties.method="first"))
   final.scores <- as.numeric(game[nrow(game), 2:4])
-  winner.rank <- ifelse(sum(final.scores == max(final.scores)) > 1, NA, ranks[, which.max(final.scores)])
+  if (sum(final.scores == max(final.scores)) > 1) winner.rank <-  NA
+  else winner.rank <- ranks[, which.max(final.scores)]
   ranks <- cbind(ranks, winner.rank)
   colnames(ranks) <- c("left.rank", "center.rank", "right.rank", "winner.rank")
   game <- data.frame(game, ranks)
