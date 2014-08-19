@@ -127,7 +127,7 @@ addVariables <- function(game, doubled, champ.days){
 
   # Add number of days of defending champion
   days <- data.frame(top.days=rep(0, nrow(game)), middle.days=rep(0, nrow(game)), bottom.days=rep(0, nrow(game)))
-  if (champ.days > 0 & !is.na(champ.days)) days[cbind(1:nrow(days), game$left.rank)] <- champ.days
+  if (champ.days > 0 & !is.na(champ.days)) days[cbind(1:nrow(days), game$left.rank)] <- min(champ.days, 4)
   game <- data.frame(game, days)
 
   # Add ranked scores
