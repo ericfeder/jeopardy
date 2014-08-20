@@ -17,7 +17,10 @@ formatAsDollar <- function(dollars){
 prepareForVisualization <- function(id, l){
   index <- which(names(l) == id)
   game <- l[[index]]
-  game$q <- paste("Question", 1:nrow(game))
+  game$q <- paste(ifelse(game$round == "Jeopardy", "J!", "DJ!"), " #", game$num.q, sep="")
+  game$q[1] <- "Start"
+  game$q_full <- paste(ifelse(game$round == "Jeopardy", "Jeopardy!", "Double Jeopardy!"), "Round, Question", game$num.q)
+  game$q_full[1] <- 'Start of Game'
 
   # Format columns for mouseover
   game$left_prob <- formatAsPercent(game$left.prob)
@@ -37,7 +40,7 @@ prepareForVisualization <- function(id, l){
 # Function for mouseover text
 hoverFunction <- "#! function(index, options, content){
   var row = options.data[index]
-  return '<b>' + row.q + '</b>' + '<br/>' +
+  return '<b>' + row.q_full + '</b>' + '<br/>' +
      row.left_contestant + ': ' + row.left_score + ' / ' + row.left_prob + '<br/>' +
      row.center_contestant + ': ' + row.center_score + ' / ' + row.center_prob + '<br/>' +
      row.right_contestant + ': ' + row.right_score + ' / ' + row.right_prob + '<br/>'
@@ -50,6 +53,6 @@ visualizeGame <- function(id, var){
 
   if (var == "Score") m1 <- mPlot(x="q", y=c("left", "center", "right"), data=game, preUnits="$", ymin=min(game[, list(left, center, right)]) - 200, ymax=max(game[, list(left, center, right)]) + 200, smooth=F)
   if (var == "Odds") m1 <- mPlot(x="q", y=c("left.prob", "center.prob", "right.prob"), data=game, postUnits="%", ymin=0, ymax=100)
-m1$set(type="Line", labels=players, pointSize=1, lineWidth=3, parseTime=F, hoverCallback=hoverFunction, lineColors=c("#8DD3C7", "#FB8072", "#BC80BD"), pointFillColors="black")
+m1$set(type="Line", labels=players, pointSize=1, lineWidth=3, parseTime=F, hoverCallback=hoverFunction, lineColors=c("#8DD3C7", "#FB8072", "#BC80BD"), pointFillColors="black", xLabelAngle=60, height=450)
   return(m1)
 }
