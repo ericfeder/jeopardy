@@ -19,8 +19,10 @@ prepareForVisualization <- function(id, l){
   game <- l[[index]]
   game$q <- paste(ifelse(game$round == "Jeopardy", "J!", "DJ!"), " #", game$num.q, sep="")
   game$q[1] <- "Start"
+  game$q[nrow(game)] <- "Final"
   game$q_full <- paste(ifelse(game$round == "Jeopardy", "Jeopardy!", "Double Jeopardy!"), "Round, Question", game$num.q)
   game$q_full[1] <- 'Start of Game'
+  game$q_full[nrow(game)] <- "Final Jeopardy!"
 
   # Format columns for mouseover
   game$left_prob <- formatAsPercent(game$left.prob)
