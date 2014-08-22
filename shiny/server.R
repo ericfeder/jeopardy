@@ -7,7 +7,8 @@ shinyServer(function(input, output, session) {
   })
 
   observe({
-    season.strings <- game.info[season == input$season, game.strings]
+    season.num <- seasons[season.string == input$season, season]
+    season.strings <- game.info[season == season.num, game.strings]
     updateSelectInput(session, "game.description", "Game: ", choices=season.strings, selected=season.strings[1])
   })
 
