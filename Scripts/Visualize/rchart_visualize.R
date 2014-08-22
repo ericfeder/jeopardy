@@ -43,9 +43,9 @@ prepareForVisualization <- function(id, l){
 hoverFunction <- "#! function(index, options, content){
   var row = options.data[index]
   return '<b>' + row.q_full + '</b>' + '<br/>' +
-     row.left_contestant + ': ' + row.left_score + ' / ' + row.left_prob + '<br/>' +
-     row.center_contestant + ': ' + row.center_score + ' / ' + row.center_prob + '<br/>' +
-     row.right_contestant + ': ' + row.right_score + ' / ' + row.right_prob + '<br/>'
+     '<span style=\"color:#8DD3C7\">' + row.left_contestant + ': ' + row.left_score + ' / ' + row.left_prob + '</span><br/>' +
+     '<span style=\"color:#FB8072\">' + row.center_contestant + ': ' + row.center_score + ' / ' + row.center_prob + '</span><br/>' +
+     '<span style=\"color:#BC80BD\">' + row.right_contestant + ': ' + row.right_score + ' / ' + row.right_prob + '</span><br/>'
 } !#"
 
 # Function to visualize game
