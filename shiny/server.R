@@ -21,13 +21,16 @@ shinyServer(function(input, output, session) {
     )
   })
 
-  output$fitted.graph <- renderChart({
+  output$oddsviz <- renderChart2({
     df.inputs <- data.frame(left.score=input$left.score,
                             center.score=input$center.score,
                             right.score=input$right.score,
                             money.left.adj=input$money.left,
                             dd.remaining=input$dd.remaining,
                             champ.days=input$champ.days)
-    fitted <- fitInputs(df.inputs)
+    fitted <- fitInputs(df.inputs, gbm.model$model, n.trees=2500)
+    n1 <- visualizeOdds(fitted)
+    n1$set(dom="oddsviz", height=400)
+    return(n1)
   })
 })

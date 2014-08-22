@@ -9,17 +9,18 @@ shinyUI(
                           selectInput("game.description", label="Game: ", choices=game.info[season == 30, game.strings], selected=game.info[season == 30, game.strings][1]),
                           selectInput("var", choices=c("Odds", "Score"), label="Metric"),
                           width=4
-                          ),
+                        ),
 
                         # Show data
                         mainPanel(
                           uiOutput("game_info"),
                           showOutput("viz", lib="morris")
-                          )
                         )
-                      ),
+                      )
+             ),
 
              tabPanel("Test Game State",
+                      showOutput("oddsviz", lib="nvd3"),
                       fluidRow(
                         column(3,
                                numericInput("left.score", label="Left Contestant Score:", value=0),
