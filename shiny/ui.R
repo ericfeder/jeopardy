@@ -20,7 +20,12 @@ shinyUI(
                       ),
 
              tabPanel("Test Game State",
-                      numericInput("left.score", label="Left Contestant Score:", value=0)
+                      fluidRow(
+                        column(3,
+                               numericInput("left.score", label="Left Contestant Score:", value=0),
+                               numericInput("center.score", label="Center Contestant Score:", value=0),
+                               numericInput("right.score", label="Right Contestant Score:", value=0))
                       )
              )
   )
+)
