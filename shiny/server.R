@@ -30,7 +30,7 @@ shinyServer(function(input, output, session) {
                             champ.days=input$champ.days)
     fitted <- fitInputs(df.inputs, gbm.model$model, n.trees=2500)
     n1 <- visualizeOdds(fitted)
-    n1$set(dom="oddsviz", height=400)
+    n1$set(dom="oddsviz", height=400, width=400)
     return(n1)
   })
 })
