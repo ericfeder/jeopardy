@@ -21,7 +21,7 @@ shinyServer(function(input, output, session) {
     )
   })
 
-  output$oddsviz <- renderChart2({
+  output$oddsviz <- renderChart({
     df.inputs <- data.frame(left.score=input$left.score,
                             center.score=input$center.score,
                             right.score=input$right.score,
