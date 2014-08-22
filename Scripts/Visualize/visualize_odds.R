@@ -5,5 +5,6 @@ source("shiny/fit_inputs.R")
 visualizeOdds <- function(fitted){
   odds <- data.frame(podium=c("Left Contestant", "Center Contestant", "Right Contestant"), odds=fitted)
   n1 <- nPlot(x="podium", y="odds", data=odds, type="pieChart")
+  n1$chart(color=c("#8DD3C7", "#FB8072", "#BC80BD"), showLegend=F)
   return(n1)
 }
