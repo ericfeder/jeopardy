@@ -4,7 +4,7 @@ source("Scripts/Prepare_Data/set_bounds.R")
 # Function to add variables and fit input
 fitInputs <- function(game, model, n.trees){
   # Add ranks
-  ranks <- rank(game[, 1:3], ties.method="first")
+  ranks <- rank(-game[, 1:3], ties.method="first")
   names(ranks) <- c("left.rank", "center.rank", "right.rank")
   game <- data.frame(game, t(ranks))
 
