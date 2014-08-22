@@ -41,4 +41,4 @@ modeling.points <- prepareForModeling(usable.points, all.game.info)
 all.game.points <- prepareForModeling(games.rbind[round != "FinalJeopardy"], all.game.info)
 
 # Save to workspace
-save(games.rbind, all.game.info, game.results, modeling.points, file="Workspaces/prepared_data.RData")
+save(games.rbind, all.game.info, game.results, modeling.points, all.game.points, file="Workspaces/prepared_data.RData")
