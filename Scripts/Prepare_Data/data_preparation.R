@@ -38,6 +38,7 @@ source("Scripts/Prepare_Data/prepare_for_modeling.R")
 usable.j.archive.ids <- all.game.info[tournament == F, j.archive.id]
 usable.points <- games.rbind[round != "FinalJeopardy" & j.archive.id %in% usable.j.archive.ids & !is.na(winner.rank)]
 modeling.points <- prepareForModeling(usable.points, all.game.info)
+all.game.points <- prepareForModeling(games.rbind[round != "FinalJeopardy"], all.game.info)
 
 # Save to workspace
 save(games.rbind, all.game.info, game.results, modeling.points, file="Workspaces/prepared_data.RData")

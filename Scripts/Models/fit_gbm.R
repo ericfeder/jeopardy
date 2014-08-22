@@ -14,3 +14,6 @@ save(gbm.model, file="Workspaces/gbm_model.RData")
 # Evaluate calibration
 source("Scripts/Models/evaluate_calibration.R")
 with(modeling.points, evaluateModel(data.frame(top.score, middle.score, bottom.score), gbm.model$preds, winner.rank, j.archive.id, units=0.05))
+
+# Predict on all games
+gbm.preds.all <- predict(gbm.model$model, all.game.points, n.trees=2500, type="response")[, , 1]

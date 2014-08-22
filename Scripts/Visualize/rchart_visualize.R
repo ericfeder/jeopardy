@@ -3,7 +3,7 @@ library(rCharts)
 
 # Merge odds with data
 source("Scripts/Models/merge_preds.R")
-game.odds.split <- mergePredsWithData(gbm.model$preds, modeling.points)
+game.odds.split <- mergePredsWithData(gbm.preds.all, all.game.points)
 
 # Function to format as percent or dollar
 formatAsPercent <- function(nums){
