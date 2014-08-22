@@ -23,14 +23,16 @@ shinyUI(
                       fluidRow(
                         showOutput("oddsviz", lib="nvd3"),
                         hr(),
-                        column(3,
+                        column(4,
                                numericInput("left.score", label="Left Contestant Score:", value=0),
                                numericInput("center.score", label="Center Contestant Score:", value=0),
                                numericInput("right.score", label="Right Contestant Score:", value=0)),
                         column(3,
                                sliderInput("money.left", label="Money Remaining on Board", min=0, max=54000, value=54000, step=200, format="$#,##0"),
-                               selectInput("dd.remaining", label="Daily Doubles Remaining", choices=0:3, selected=3),
-                               selectInput("champ.days", label="How many games has the left contestant won before today?", choices=c(0:3, "4+"), selected=0))
+                               selectInput("dd.remaining", label="Daily Doubles Remaining", choices=0:3, selected=3)),
+                        column(3,
+                               selectInput("champ.days", label="How many games has the left contestant won before today?", choices=c(0:3, "4+"), selected=0)
+                        )
                       )
              ),
 
