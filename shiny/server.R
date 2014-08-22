@@ -27,7 +27,8 @@ shinyServer(function(input, output, session) {
                             right.score=input$right.score,
                             money.left.adj=input$money.left,
                             dd.remaining=input$dd.remaining,
-                            champ.days=input$champ.days)
+                            champ.days=input$champ.days,
+                            stringsAsFactor=F)
     fitted <- fitInputs(df.inputs, gbm.model$model, n.trees=2500)
     n1 <- visualizeOdds(fitted)
     n1$set(dom="oddsviz", height=400, width=400)
