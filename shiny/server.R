@@ -20,4 +20,14 @@ shinyServer(function(input, output, session) {
       tags$span(style="color:red", game.info$disclaimer)
     )
   })
+
+  output$fitted.graph <- renderChart({
+    df.inputs <- data.frame(left.score=input$left.score,
+                            center.score=input$center.score,
+                            right.score=input$right.score,
+                            money.left.adj=input$money.left,
+                            dd.remaining=input$dd.remaining,
+                            champ.days=input$champ.days)
+    fitted <- fitInputs(df.inputs)
+  })
 })
