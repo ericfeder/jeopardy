@@ -13,6 +13,11 @@ shinyServer(function(input, output, session) {
   })
 
   output$game_info <- renderUI({
-    tags$h4(input$game.description)
+    game.info <- game.info[game.strings == input$game.description]
+    list(
+      tags$h4(game.info$game.strings),
+      tags$h5(game.info$tournament.game),
+      tags$span(style="color:red", game.info$disclaimer)
+    )
   })
 })
