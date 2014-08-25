@@ -23,7 +23,7 @@ shinyUI(
                       fluidRow(
                         showOutput("oddsviz", lib="nvd3"),
                         hr(),
-                        column(4,
+                        column(3,
                                numericInput("left.score", label="Left Contestant Score:", value=0),
                                numericInput("center.score", label="Center Contestant Score:", value=0),
                                numericInput("right.score", label="Right Contestant Score:", value=0)),
