@@ -15,5 +15,5 @@ preds.new <- predict(gbm.model.new, modeling.points[j.archive.id %in% test.ids],
 
 # Evaluate calibration
 source("Scripts/Models/evaluate_calibration.R")
-with(modeling.points[j.archive.id %in% test.ids], evaluateModel(data.frame(top.score, middle.score, bottom.score), preds, winner.rank, j.archive.id, units=0.05))
-with(modeling.points[j.archive.id %in% test.ids], evaluateModel(data.frame(top.score, middle.score, bottom.score), preds.new, winner.rank, j.archive.id, units=0.05))
+evaluateModel(modeling.points[j.archive.id %in% test.ids], preds, units=0.05)
+evaluateModel(modeling.points[j.archive.id %in% test.ids], preds.new, units=0.05)
