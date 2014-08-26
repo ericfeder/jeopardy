@@ -97,9 +97,6 @@ returnValues <- function(html, doubled){
   return(df)
 }
 
-# Function to set both min and max of vector
-source("Scripts/Prepare_Data/set_bounds.R")
-
 # Function to add variables to game
 addVariables <- function(game, doubled, champ.days){
   # Calculate money left
@@ -110,6 +107,8 @@ addVariables <- function(game, doubled, champ.days){
 
   # Calculate daily doubles left
   game$dd.remaining <- 3 - cumsum(c(F, game$daily.double[-1]))
+  game$dd.remaining[game$round == "DoubleJeopardy"] <- 2 - cumsum(game$daily.double[game$round == "DoubleJeopardy"])
+  game$dd.remaining[nrow(game) - 1] <- 0
 
   # Add ranks
   ranks <- t(apply(-game[, 2:4], 1, rank, ties.method="first"))
@@ -129,14 +128,6 @@ addVariables <- function(game, doubled, champ.days){
   ranked.scores <- t(apply(game[, 2:4], 1, sort, decreasing=T))
   colnames(ranked.scores) <- c("top.score", "middle.score", "bottom.score")
   game <- data.frame(game, ranked.scores)
-
-  # Add differences
-  game$middle.diff <- game$top.score - game$middle.score
-  game$bottom.diff <- game$top.score - game$bottom.score
-
-  # Add ratios
-  game$middle.ratio <- setBounds(game$middle.score / game$top.score, min=0, max=1, na.to.1=T)
-  game$bottom.ratio <- setBounds(game$bottom.score / game$top.score, min=0, max=1, na.to.1=T)
 
   # Return
   return(game)
