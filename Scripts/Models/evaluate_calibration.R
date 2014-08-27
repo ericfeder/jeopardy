@@ -32,7 +32,7 @@ evaluateModel <- function(points, pred.odds, units){
   hist(pred.odds[, 1], main="Distribution of Top Player WP%")
 
   # Return
-  return(list(perc.proper.direction=perc.proper.direction, leader.not.favored=leader.not.favored, pred.ranges=pred.ranges, likelihood=total.likelihood, starting.odds=starting.odds))
+  return(list(perc.proper.direction=perc.proper.direction, pred.ranges=pred.ranges, likelihood=total.likelihood, starting.odds=starting.odds))
 }
 
 # Function to plot model calibration
