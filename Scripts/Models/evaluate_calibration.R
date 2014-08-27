@@ -20,7 +20,6 @@ evaluateModel <- function(points, pred.odds, units){
 
   # Metrics
   perc.proper.direction <- mean(sign(score.changed) == sign(odds.changed))
-  leader.not.favored <- mean(pred.odds[, 1] < 1/3)
   pred.ranges <- apply(pred.odds, 2, range)
   total.likelihood <- sum(log(row.likelihoods))
   starting.odds <- unique(game.starts)[order(champ.days)]
