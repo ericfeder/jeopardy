@@ -7,7 +7,7 @@ test.ids <- sample(unique(modeling.points$j.archive.id), 850)
 
 # Fit model
 gbm.model <- gbm(factor(winner.rank) ~ middle.diff.adj + middle.ratio + bottom.diff.adj + bottom.ratio + money.left.adj + dd.remaining + top.days + middle.days + bottom.days, data=modeling.points[!j.archive.id %in% test.ids], distribution="multinomial", shrinkage=0.01, n.trees=2000, verbose=T, interaction.depth=2)
-gbm.model.new <- gbm(factor(winner.rank) ~ middle.diff.adj + middle.ratio + bottom.diff.adj + bottom.ratio + money.left.adj + dd.remaining + top.days + middle.days + bottom.days + money.til.lock, data=modeling.points[!j.archive.id %in% test.ids], distribution="multinomial", shrinkage=0.01, n.trees=2000, verbose=T, interaction.depth=2)
+gbm.model.new <- gbm(factor(winner.rank) ~ middle.diff.adj + middle.ratio + bottom.diff.adj + bottom.ratio + money.left.adj + dd.remaining + top.days + middle.days + bottom.days + perc.for.lock, data=modeling.points[!j.archive.id %in% test.ids], distribution="multinomial", shrinkage=0.01, n.trees=2000, verbose=T, interaction.depth=2)
 
 # Predict
 preds <- predict(gbm.model, modeling.points[j.archive.id %in% test.ids], n.trees=1000, type="response")[, , 1]
