@@ -18,7 +18,8 @@ prepareForModeling <- function(points, game.info){
   merged.back <- data.table(merged, adjusted)
 
   # Add perc of money.left.adj needed for lock tie
-  merged.back$perc.for.lock <- with(merged.back, setBounds((money.left.adj + middle.score.adj - (top.score.adj/2))/money.left.adj, min=0, max=1, set.na=0))
+  merged.back$perc.for.lock <- with(merged.back, setBounds((money.left.adj + middle.score.adj - (top.score.adj / 2)) / money.left.adj, min=0, max=1, set.na=0))
+  merged.back$perc.for.23 <- with(merged.back, setBounds((money.left.adj + middle.score.adj - (top.score.adj * 2 / 3)) / money.left.adj, min=0, max=1, set.na=0))
 
   # Return
   return(merged.back)
