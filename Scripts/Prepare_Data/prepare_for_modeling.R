@@ -8,8 +8,8 @@ prepareForModeling <- function(points, game.info){
   points$bottom.diff <- points$top.score - points$bottom.score
 
   # Add ratios
-  points$middle.ratio <- setBounds(points$middle.score / points$top.score, min=0, max=1, na.to.1=T)
-  points$bottom.ratio <- setBounds(points$bottom.score / points$top.score, min=0, max=1, na.to.1=T)
+  points$middle.ratio <- setBounds(points$middle.score / points$top.score, min=0, max=1, set.na=1)
+  points$bottom.ratio <- setBounds(points$bottom.score / points$top.score, min=0, max=1, set.na=1)
 
   # Double if necessary and merge
   merged <- merge(points, game.info, by="j.archive.id")
@@ -17,9 +17,8 @@ prepareForModeling <- function(points, game.info){
   setnames(adjusted, c("money.left.adj", "top.score.adj", "middle.score.adj", "bottom.score.adj", "middle.diff.adj", "bottom.diff.adj"))
   merged.back <- data.table(merged, adjusted)
 
-  # Add lock game
-  merged.back$lock.game <- with(merged.back, top.score/2 - middle.score > money.left & dd.remaining == 0)
-  merged.back$lock.game.end <- merged.back$middle.ratio < 0.5 & merged.back$money.left == 0
+  # Add perc of money.left.adj needed for lock tie
+  merged.back$perc.for.lock <- with(merged.back, setBounds((money.left.adj + middle.score.adj - (top.score.adj/2))/money.left.adj, min=0, max=1, set.na=0))
 
   # Return
   return(merged.back)
