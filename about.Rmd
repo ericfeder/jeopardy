@@ -20,7 +20,7 @@ To find each player's odds of winning at a given time, their scores are sorted, 
 * A measure of how close the top player is guaranteeing a [crush](http://www.j-archive.com/help.php#crush) (calculated as `(top.score*2/3 - middle.score) / money.left` and bounded between 0 and 1)
 
 ### How did you build the model?
-After scraping and cleaning all the games, I eliminated all games that ended as a tie and all tournament games . I then used cross-validation to arrive at the best model, which turned out to be generalized boosted trees from the gbm package.
+After scraping and cleaning all the games, I eliminated all games that ended as a tie and all tournament games. I then used cross-validation to arrive at the best model, which turned out to be generalized boosted trees from the gbm package.
 
 ### What's so different about tournament games?
 
@@ -28,10 +28,13 @@ After scraping and cleaning all the games, I eliminated all games that ended as 
 2. Player's incentives can be very different. Particularly in tournament quarterfinals and finals, players may not be concerned with trying to win the game, but rather with guaranteeing advancement.
 
 ### What about the games from before the values were doubled?
-T
+I just doubled all scores and the amount of money remaining so it would be on the same scale as current games.
 
 ### What is this model really measuring?
-I think it's balancing two things: how good it thinks each of the players are and their current position in the game. So a player who sweeps the first category is suddenly considered the favorite not because a $3,000 lead is so difficult to overcome, but because that player is probably very strong.
+I think it's balancing two things: how good it thinks each of the players are as well as their current position in the game. So a player who sweeps the first category is suddenly considered the favorite not because a $3,000 lead is so difficult to overcome, but because that player is probably very strong and will likely continue to do well.
+
+### How precise do you think this is?
+Not very. If two players' odds are within 5% of each other, I wouldn't really be confident enough to say that either of them should be favored. Additionally, the model currenly has some known flaws. For example, the model is biased towards players more towards the left, even when there's nothing to differentiate the players from each other. This is primarily an artifact of how I structure the data. Additionally, the model doesn't differentiate between money won from regular clues and money won from daily doubles -- winning/losing a lot on a daily double tells us more about your luck and wagering strategy than it does your skill and should be treated differently. Finally, the model doesn't know how well you did in your previous games beyond how many consecutive games you've won. So all 3-day winners are treated the same regardless of how they got to those wins, and all players are considered equals in the Tournament of Champions.
 
 ### Where can I see more?
 See my code: https://github.com/ef2240/jeopardy-sabermetrics  
