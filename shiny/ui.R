@@ -36,6 +36,7 @@ shinyUI(
                       )
              ),
 
-             tabPanel("About")
+             tabPanel("About",
+                      includeMarkdown("~/Documents/jeopardy-sabermetrics/about.Rmd"))
   )
 )

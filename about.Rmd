@@ -1,0 +1,38 @@
+### What Is This?
+This site allows you explore a model I built that estimates each contestant's odds of winning at any point in a game of Jeopardy!
+
+### Where did you get the data?
+I scraped it from the incredible [J! Archive](http://www.j-archive.com).
+
+### What goes into the model?
+To find each player's odds of winning at a given time, their scores are sorted, leaving us with a top score, a middle score, and a bottom score. The following variables are then calculated:
+
+* How far behind is the middle score from the top score (`top.score - middle.score`)
+* How far behind is the bottom score from the top score (`top.score - bottom.score`)
+* What percent of the top score is the middle score (`middle.score / top.score`)
+* What percent of the top score is the bottom score (`bottom.score / top.score`)
+* How much money is left on the board (If during the Jeopardy! Round, this includes the money that will be on the board during Double Jeopardy!)
+* How many daily doubles are left on the board (If during the Jeopardy! Round, this includes the daily doubles that will be on the board during Double Jeopardy!)
+* How many consecutive games has the top player won coming into today? (If he/she isn't the defending champion, this is just 0.)
+* How many consecutive games has the middle player won coming into today? (If he/she isn't the defending champion, this is just 0.)
+* How many consecutive games has the bottom player won coming into today? (If he/she isn't the defending champion, this is just 0.)
+* A measure of how close the top player is guaranteeing a [lock-tie](http://www.j-archive.com/help.php#locktie) (calculated as `(top.score/2 - middle.score) / money.left` and bounded between 0 and 1)
+* A measure of how close the top player is guaranteeing a [crush](http://www.j-archive.com/help.php#crush) (calculated as `(top.score*2/3 - middle.score) / money.left` and bounded between 0 and 1)
+
+### How did you build the model?
+After scraping and cleaning all the games, I eliminated all games that ended as a tie and all tournament games . I then used cross-validation to arrive at the best model, which turned out to be generalized boosted trees from the gbm package.
+
+### What's so different about tournament games?
+
+1. The quality of the players and of the questions can be very different from regular games.
+2. Player's incentives can be very different. Particularly in tournament quarterfinals and finals, players may not be concerned with trying to win the game, but rather with guaranteeing advancement.
+
+### What about the games from before the values were doubled?
+T
+
+### What is this model really measuring?
+I think it's balancing two things: how good it thinks each of the players are and their current position in the game. So a player who sweeps the first category is suddenly considered the favorite not because a $3,000 lead is so difficult to overcome, but because that player is probably very strong.
+
+### Where can I see more?
+See my code: https://github.com/ef2240/jeopardy-sabermetrics  
+See more about me: https://www.linkedin.com/in/efeder or email me at ef2240@columbia.edu
