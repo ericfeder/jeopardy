@@ -1,5 +1,5 @@
 ### What Is This?
-This site allows you explore a model I built that estimates each contestant's odds of winning at any point in a game of Jeopardy!
+This site allows you explore a model I built that estimates each contestant's odds of winning at any point in a game of Jeopardy! If you're familiar with the idea of win expectancy in [baseball](http://www.fangraphs.com/library/misc/we/) or [football](http://www.advancedfootballanalytics.com/2010/01/win-probability-added-wpa-explained.html), this is pretty much the same idea.
 
 ### Where did you get the data?
 I scraped it from the incredible [J! Archive](http://www.j-archive.com).
