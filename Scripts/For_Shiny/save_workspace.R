@@ -10,4 +10,4 @@ source("Scripts/Visualize/visualize_odds.R")
 source("Scripts/For_Shiny/prepare_game_info.R")
 
 # Save workspace for shiny
-save(all.game.info, game.info, seasons, fitInputs, visualizeOdds, setBounds, gbm.model, game.odds.split, formatAsPercent, formatAsDollar, prepareForVisualization, hoverFunction, visualizeGame, file="shiny/shiny_workspace.RData")
+save(all.game.info, game.info, seasons, gbm.model, game.odds.split, file="shiny/shiny_workspace.RData")
