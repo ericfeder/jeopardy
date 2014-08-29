@@ -2,7 +2,7 @@
 library(gbm)
 
 # Function to fit inputs
-source("shiny/fit_inputs.R")
+source("Scripts/For_Shiny//fit_inputs.R")
 
 # Function to visualize odds
 visualizeOdds <- function(fitted){
