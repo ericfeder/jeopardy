@@ -1,3 +1,6 @@
+# Load package
+library(rCharts)
+
 # Define UI
 shinyUI(
   navbarPage("Jeopardy Win Probability",
@@ -40,6 +43,6 @@ shinyUI(
              ),
 
              tabPanel("About",
-                      includeMarkdown("~/Documents/jeopardy-sabermetrics/about.Rmd"))
+                      includeMarkdown("about.Rmd"))
   )
 )
