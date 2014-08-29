@@ -22,6 +22,7 @@ shinyServer(function(input, output, session) {
   })
 
   output$oddsviz <- renderChart({
+    if (!is.numeric(input$left.score) | !is.numeric(input$center.score) | !is.numeric(input$right.score)) stop("Please set numeric values for all 3 players")
     df.inputs <- data.frame(left.score=input$left.score,
                             center.score=input$center.score,
                             right.score=input$right.score,
