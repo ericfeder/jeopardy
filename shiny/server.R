@@ -1,3 +1,12 @@
+# Load data and packages
+library(shiny)
+library(data.table)
+library(rCharts)
+library(dplyr)
+library(gbm)
+library(reshape2)
+
+# Server function
 shinyServer(function(input, output, session) {
   output$viz <- renderChart({
     id <- game.info$j.archive.id[game.info$game.strings == input$game.description]
