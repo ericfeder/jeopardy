@@ -30,7 +30,7 @@ After scraping and cleaning all the games, I eliminated all games that ended as 
 ### What about the games from before the values were doubled?
 I just doubled all scores and the amount of money remaining so it would be on the same scale as current games.
 
-### What is this model really measuring?
+### What's this model really measuring?
 I think it's balancing two things: how good it thinks each of the players are as well as their current position in the game. So a player who sweeps the first category is suddenly considered the favorite not because a $3,000 lead is so difficult to overcome, but because that player is probably very strong and will likely continue to do well.
 
 ### How precise do you think this is?
