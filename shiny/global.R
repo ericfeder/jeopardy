@@ -1,3 +1,6 @@
+# Load package
+library(data.table)
+
 # Load workspace
 load("shiny_workspace.RData")
 
