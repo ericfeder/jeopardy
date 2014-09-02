@@ -36,7 +36,7 @@ shinyUI(
                                selectInput("dd.remaining", label="Daily Doubles Remaining", choices=0:3, selected=3)
                                ),
                         column(3,
-                               selectInput("champ.days", label="How many games has the left contestant won before today?", choices=c(0:3, "4+"), selected=0)
+                               selectInput("champ.days", label="How many games has the left contestant won before today?", choices=c(0:3, "4+"), selected=1)
                         )
                       ),
                       hr()
