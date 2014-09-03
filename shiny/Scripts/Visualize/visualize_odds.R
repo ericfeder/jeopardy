@@ -1,9 +1,6 @@
 # Load model package
 library(gbm)
 
-# Function to fit inputs
-source("Scripts/For_Shiny//fit_inputs.R")
-
 # Function to visualize odds
 visualizeOdds <- function(fitted){
   odds <- data.frame(podium=c("Left Contestant", "Center Contestant", "Right Contestant"), odds=fitted)
