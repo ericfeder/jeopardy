@@ -17,13 +17,13 @@ prepareForModeling <- function(points, game.info){
   setnames(adjusted, c("money.left.adj", "top.score.adj", "middle.score.adj", "bottom.score.adj", "middle.diff.adj", "bottom.diff.adj"))
   merged.back <- data.table(merged, adjusted)
 
-  # Add perc of money.left.adj needed for lock tie
-  merged.back$perc.for.lock <- with(merged.back, setBounds((top.score.adj / 2 - middle.score.adj) / money.left.adj, min=0, max=1, set.na=1))
-  merged.back$perc.for.one.lock <- with(merged.back, setBounds((top.score.adj / 2 - bottom.score.adj) / money.left.adj, min=0, max=1, set.na=1))
-  merged.back$perc.for.crush <- with(merged.back, setBounds((top.score.adj * 2 / 3 - middle.score.adj) / money.left.adj, min=0, max=1, set.na=1))
-  merged.back$perc.for.one.crush <- with(merged.back, setBounds((top.score.adj * 2 / 3 - bottom.score.adj) / money.left.adj, min=0, max=1, set.na=1))
-  merged.back$perc.for.lead <- with(merged.back, setBounds((top.score.adj - middle.score.adj) / money.left.adj, min=0, max=1, set.na=1))
-  merged.back$perc.for.one.lead <- with(merged.back, setBounds((top.score.adj - bottom.score.adj) / money.left.adj, min=0, max=1, set.na=1))
+  # Add lock/crush/lead metrics
+  merged.back$lock.middle.perc <- with(merged.back, setBounds((top.score / 2 - middle.score) / money.left, min=-Inf, max=Inf, set.na=1))
+  merged.back$lock.bottom.perc <- with(merged.back, setBounds((top.score / 2 - bottom.score) / money.left, min=-Inf, max=Inf, set.na=1))
+  merged.back$crush.middle.perc <- with(merged.back, setBounds((top.score * 2 / 3 - middle.score) / money.left, min=-Inf, max=Inf, set.na=1))
+  merged.back$crush.bottom.perc <- with(merged.back, setBounds((top.score * 2 / 3 - bottom.score) / money.left, min=-Inf, max=Inf, set.na=1))
+  merged.back$lead.middle.perc <- with(merged.back, setBounds((top.score - middle.score) / money.left, min=-Inf, max=Inf, set.na=0))
+  merged.back$lead.bottom.perc <- with(merged.back, setBounds((top.score - bottom.score) / money.left, min=-Inf, max=Inf, set.na=0))
 
   # Return
   return(merged.back)
