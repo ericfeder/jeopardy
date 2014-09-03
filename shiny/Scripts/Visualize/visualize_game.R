@@ -1,6 +1,3 @@
-# Load package
-library(rCharts)
-
 # Function to format as percent or dollar
 formatAsPercent <- function(nums){
   return(sprintf("%.0f%%", nums))

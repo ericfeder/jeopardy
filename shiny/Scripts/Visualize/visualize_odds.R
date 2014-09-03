@@ -1,6 +1,3 @@
-# Load model package
-library(gbm)
-
 # Function to visualize odds
 visualizeOdds <- function(fitted){
   odds <- data.frame(podium=c("Left Contestant", "Center Contestant", "Right Contestant"), odds=fitted)
