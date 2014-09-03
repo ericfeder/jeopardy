@@ -3,10 +3,12 @@ evaluateModel <- function(points, pred.odds, units){
   # Track score changes
   score.diffs <- apply(points[, list(top.score, middle.score, bottom.score)], 2, diff)
   odds.diffs <- apply(pred.odds, 2, diff)
+  day.diffs <- apply(points[, list(top.days, middle.days, bottom.days)], 2, diff)
   new.game <- diff(points$j.archive.id) != 0
+  buzzer <- (points$money.left == 0 & points$num.q != 30)[-1]
 
   # Flag rows where only one persons score changes
-  just.one.change <- !new.game & apply(score.diffs, 1, function(x) sum(x == 0) == 2)
+  just.one.change <- !new.game & !buzzer & apply(score.diffs, 1, function(x) sum(x == 0) == 2) & rowSums(abs(day.diffs)) == 0
   which.col.changed <- apply(score.diffs[just.one.change, ], 1, function(x) which(x != 0))
   score.changed <- score.diffs[cbind(which(just.one.change), which.col.changed)]
   odds.changed <- odds.diffs[cbind(which(just.one.change), which.col.changed)]
@@ -19,7 +21,7 @@ evaluateModel <- function(points, pred.odds, units){
   game.starts <- data.table(pred.odds, points)[round == "Start" & champ.days <= 5, c(1:3, "champ.days"), with=F]
 
   # Metrics
-  perc.proper.direction <- mean(sign(score.changed) == sign(odds.changed))
+  perc.proper.direction <- mean(sign(score.changed) == sign(odds.changed) | abs(odds.changed) < 0.01)
   pred.ranges <- apply(pred.odds, 2, range)
   total.likelihood <- sum(log(row.likelihoods))
   starting.odds <- unique(game.starts)[order(champ.days)]
