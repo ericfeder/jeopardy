@@ -17,7 +17,7 @@ shinyUI(
                         # Show data
                         mainPanel(
                           uiOutput("game_info"),
-                          showOutput("viz", lib="morris")
+                          showOutput("gameviz", lib="morris")
                         ),
                         fluid=F
                       )

@@ -8,10 +8,10 @@ library(reshape2)
 
 # Server function
 shinyServer(function(input, output, session) {
-  output$viz <- renderChart({
+  output$gameviz <- renderChart({
     id <- game.info$j.archive.id[game.info$game.strings == input$game.description]
     m1 <- visualizeGame(id, input$var)
-    m1$addParams(dom="viz")
+    m1$addParams(dom="gameviz")
     return(m1)
   })
 
