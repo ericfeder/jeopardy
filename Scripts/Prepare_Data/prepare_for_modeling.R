@@ -18,12 +18,12 @@ prepareForModeling <- function(points, game.info){
   merged.back <- data.table(merged, adjusted)
 
   # Add lock/crush/lead metrics
-  merged.back$lock.middle.perc <- with(merged.back, setBounds((top.score / 2 - middle.score) / money.left, min=-Inf, max=Inf, set.na=1))
-  merged.back$lock.bottom.perc <- with(merged.back, setBounds((top.score / 2 - bottom.score) / money.left, min=-Inf, max=Inf, set.na=1))
-  merged.back$crush.middle.perc <- with(merged.back, setBounds((top.score * 2 / 3 - middle.score) / money.left, min=-Inf, max=Inf, set.na=1))
-  merged.back$crush.bottom.perc <- with(merged.back, setBounds((top.score * 2 / 3 - bottom.score) / money.left, min=-Inf, max=Inf, set.na=1))
-  merged.back$lead.middle.perc <- with(merged.back, setBounds((top.score - middle.score) / money.left, min=-Inf, max=Inf, set.na=0))
-  merged.back$lead.bottom.perc <- with(merged.back, setBounds((top.score - bottom.score) / money.left, min=-Inf, max=Inf, set.na=0))
+  merged.back$lock.middle.perc <- with(merged.back, setBounds((top.score / 2 - middle.score) / money.left, min=0, max=1, set.na=1))
+  merged.back$lock.bottom.perc <- with(merged.back, setBounds((top.score / 2 - bottom.score) / money.left, min=0, max=1, set.na=1))
+  merged.back$crush.middle.perc <- with(merged.back, setBounds((top.score * 2 / 3 - middle.score) / money.left, min=0, max=1, set.na=1))
+  merged.back$crush.bottom.perc <- with(merged.back, setBounds((top.score * 2 / 3 - bottom.score) / money.left, min=0, max=1, set.na=1))
+  merged.back$lead.middle.perc <- with(merged.back, setBounds((top.score - middle.score) / money.left, min=0, max=1, set.na=0))
+  merged.back$lead.bottom.perc <- with(merged.back, setBounds((top.score - bottom.score) / money.left, min=0, max=1, set.na=0))
 
   # Return
   return(merged.back)
