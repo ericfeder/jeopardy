@@ -27,9 +27,10 @@ fitInputs <- function(game, model, n.trees){
   game$middle.ratio <- setBounds(game$middle.score / game$top.score, min=0, max=1, set.na=1)
   game$bottom.ratio <- setBounds(game$bottom.score / game$top.score, min=0, max=1, set.na=1)
 
-  # Add perc of money.left.adj needed for lock tie
-  game$perc.for.lock <- with(game, setBounds((money.left.adj + middle.score - (top.score / 2)) / money.left.adj, min=0, max=1, set.na=0))
-  game$perc.for.23 <- with(game, setBounds((money.left.adj + middle.score - (top.score * 2 / 3)) / money.left.adj, min=0, max=1, set.na=0))
+  # Add lock/crush/lead metrics
+  game$lock.perc <- with(game, setBounds((top.score / 2 - middle.score) / money.left.adj, min=0, max=1, set.na=1))
+  game$crush.perc <- with(game, setBounds((top.score * 2 / 3 - middle.score) / money.left.adj, min=0, max=1, set.na=1))
+  game$lead.perc <- with(game, setBounds((top.score - middle.score) / money.left.adj, min=0, max=1, set.na=0))
 
   # Fit model
   preds <- predict(model, game, n.trees=n.trees, type="response")[, , 1]
