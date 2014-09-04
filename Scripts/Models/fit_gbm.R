@@ -3,17 +3,17 @@ library(data.table)
 library(gbm)
 
 # Fit model
-gbm.model <- gbm(factor(winner.rank) ~ middle.diff.adj + middle.ratio + bottom.diff.adj + bottom.ratio + money.left.adj + dd.remaining + top.days + middle.days + bottom.days + perc.for.lock + perc.for.23, data=modeling.points, distribution="multinomial", shrinkage=0.005, n.trees=5000, verbose=T, interaction.depth=2)
+gbm.model <- gbm(factor(winner.rank) ~ middle.diff.adj + middle.ratio + bottom.diff.adj + bottom.ratio + money.left.adj + dd.remaining + top.days + middle.days + bottom.days + lock.perc + crush.perc + lead.perc, data=modeling.points, distribution="multinomial", shrinkage=0.005, n.trees=5000, verbose=T, interaction.depth=2)
 
 # Predict
-gbm.model <- list(model=gbm.model, preds=predict(gbm.model, modeling.points, n.trees=2500, type="response")[, , 1])
+gbm.model <- list(model=gbm.model, preds=predict(gbm.model, modeling.points, n.trees=4000, type="response")[, , 1])
 
 # Evaluate calibration
 source("Scripts/Models/evaluate_model.R")
 evaluateModel(modeling.points, gbm.model$preds, units=0.05)
 
 # Predict on all games
-gbm.preds.all <- predict(gbm.model$model, all.game.points, n.trees=2500, type="response")[, , 1]
+gbm.preds.all <- predict(gbm.model$model, all.game.points, n.trees=4000, type="response")[, , 1]
 
 # Save to workspace
 save(gbm.model, gbm.preds.all, file="Workspaces/gbm_model.RData")
