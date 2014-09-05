@@ -43,7 +43,7 @@ shinyServer(function(input, output, session) {
                             dd.remaining=input$dd.remaining,
                             champ.days=input$champ.days,
                             stringsAsFactors=F)
-    fitted <- fitInputs(df.inputs, gbm.model$model, n.trees=4000)
+    fitted <- fitInputs(df.inputs, gbm.model, n.trees=4000)
     n1 <- visualizeOdds(fitted)
     n1$set(dom="oddsviz")
     n1$chart(width=800)
