@@ -4,10 +4,10 @@ library(data.table)
 library(rCharts)
 library(dplyr)
 library(gbm)
-library(sendmailR)
+# library(sendmailR)
 
 # Send email when app started
-sendmail("<jwp@jwp-shiny-app.com>", "<federer490@gmail.com>", "[JWP-shiny-app] Site opened", as.character(Sys.time()), control=list(smtpServer="ASPMX.L.GOOGLE.COM"))
+# sendmail("<jwp@jwp-shiny-app.com>", "<federer490@gmail.com>", "[JWP-shiny-app] Site opened", as.character(Sys.time()), control=list(smtpServer="ASPMX.L.GOOGLE.COM"))
 
 # Server function
 shinyServer(function(input, output, session) {
