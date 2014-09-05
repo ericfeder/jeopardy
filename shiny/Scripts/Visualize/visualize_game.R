@@ -25,10 +25,9 @@ prepareForVisualization <- function(id, l){
   game$center_score <- formatAsDollar(game$center)
   game$right_score <- formatAsDollar(game$right)
 
-  players <- as.character(all.game.info[j.archive.id == id, list(as.character(left.contestant), as.character(center.contestant), as.character(right.contestant))])
-  game$left_contestant <- players[1]
-  game$center_contestant <- players[2]
-  game$right_contestant <- players[3]
+  game$left_contestant <- game.info[j.archive.id == id, left.contestant]
+  game$center_contestant <- game.info[j.archive.id == id, center.contestant]
+  game$right_contestant <- game.info[j.archive.id == id, right.contestant]
   return(game)
 }
 
