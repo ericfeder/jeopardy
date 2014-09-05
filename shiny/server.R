@@ -4,7 +4,6 @@ library(data.table)
 library(rCharts)
 library(dplyr)
 library(gbm)
-library(reshape2)
 library(sendmailR)
 
 # Send email when app started
