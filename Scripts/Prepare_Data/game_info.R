@@ -24,7 +24,7 @@ downloadSeason <- function(num){
   if (num != 1) j.archive.id <- j.archive.id[j.archive.id != 173]
 
   # Save as single data frame
-  episodes <- data.frame(season=num, episode.id, j.archive.id, date, left.contestant=contestants.list[[1]], center.contestant=contestants.list[[2]], right.contestant=contestants.list[[3]], notes=episodes.raw[, 3])
+  episodes <- data.frame(season=num, episode.id, j.archive.id, date, left.contestant=contestants.list[[1]], center.contestant=contestants.list[[2]], right.contestant=contestants.list[[3]], notes=episodes.raw[, 3], stringsAsFactors=F)
   cat("downloaded season", num, "\n")
 
   # Return
