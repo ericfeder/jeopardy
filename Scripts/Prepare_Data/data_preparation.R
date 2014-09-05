@@ -13,7 +13,7 @@ source("Scripts/Prepare_Data/download_games.R")
 games.raw <- lapply(game.info.rbind$j.archive.id, downloadGame)
 
 # Save to workspace
-save(games.raw, game.info.rbind, file="Workspaces/raw_games.RData")
+save(games.raw, game.info.rbind, file="Workspaces/raw_data.RData")
 
 # Add game info
 source("Scripts/Prepare_Data/process_games.R")
