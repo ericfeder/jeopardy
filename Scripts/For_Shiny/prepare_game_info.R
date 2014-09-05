@@ -14,4 +14,4 @@ game.info <- all.game.info %>%
 
 # Merge odds with data
 source("Scripts/Models/merge_preds.R")
-game.odds.split <- mergePredsWithData(gbm.preds.all, all.game.points)
+game.odds <- mergePredsWithData(gbm.preds.all, all.game.points, game.results)

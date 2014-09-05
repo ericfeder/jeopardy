@@ -13,7 +13,7 @@ sendmail("<jwp@jwp-shiny-app.com>", "<federer490@gmail.com>", "[JWP-shiny-app] S
 shinyServer(function(input, output, session) {
   output$gameviz <- renderChart({
     id <- game.info$j.archive.id[game.info$game.strings == input$game.description]
-    m1 <- visualizeGame(id, input$var)
+    m1 <- visualizeGame(id, input$var, game.odds)
     m1$addParams(dom="gameviz")
     return(m1)
   })

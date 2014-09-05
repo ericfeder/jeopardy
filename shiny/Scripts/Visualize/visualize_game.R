@@ -7,9 +7,8 @@ formatAsDollar <- function(dollars){
 }
 
 # Function to prepare data to be visualized
-prepareForVisualization <- function(id, l){
-  index <- which(names(l) == id)
-  game <- l[[index]]
+prepareForVisualization <- function(id, dt){
+  game <- dt[j.archive.id == id]
   game$q <- paste(ifelse(game$round == "Jeopardy", "J!", "DJ!"), " #", game$num.q, sep="")
   game$q[1] <- "Start"
   game$q[nrow(game)] <- "Final"
@@ -41,8 +40,8 @@ hoverFunction <- "#! function(index, options, content){
 } !#"
 
 # Function to visualize game
-visualizeGame <- function(id, var){
-  game <- prepareForVisualization(id, game.odds.split)
+visualizeGame <- function(id, var, dt){
+  game <- prepareForVisualization(id, dt)
   players <- as.character(game[1, list(left_contestant, center_contestant, right_contestant)])
 
   if (var == "Score") m1 <- mPlot(x="q", y=c("left", "center", "right"), data=game, preUnits="$", ymin=round(min(game[, list(left, center, right)] - 50), -2), ymax=round(max(game[, list(left, center, right)]) + 50, -2), smooth=F)
