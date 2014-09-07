@@ -18,19 +18,20 @@ shinyServer(function(input, output, session) {
     return(m1)
   })
 
+  output$gameviztitle <- renderUI({
+    game.info <- game.info[game.strings == input$game.description]
+    text <- sprintf("%s for %s", ifelse(input$var == "Scores", "Scores", "Win Probabilities"), game.info$num.and.date)
+    div(tags$h4(text),
+        tags$h5(game.info$contestant.strings),
+        tags$h5(game.info$tournament.game),
+        tags$span(style="color:red", game.info$disclaimer),
+        style="text-align:center")
+  })
+
   observe({
     season.num <- seasons[season.string == input$season, season]
     season.strings <- game.info[season == season.num, game.strings]
     updateSelectInput(session, "game.description", "Game: ", choices=season.strings, selected=season.strings[1])
-  })
-
-  output$game_info <- renderUI({
-    game.info <- game.info[game.strings == input$game.description]
-    list(
-      tags$h4(game.info$game.strings),
-      tags$h5(game.info$tournament.game),
-      tags$span(style="color:red", game.info$disclaimer)
-    )
   })
 
   output$oddsviz <- renderChart({
