@@ -1,10 +1,10 @@
 # Function to process game
 processGame <- function(game.raw, doubled, champ.days){
   # Skip games with no/unusual info
-  if (game.raw$j.archive.id %in% 3575:3576) return("Watson Game")
-  if (length(game.raw$scores.raw) < 5 | is.null(game.raw$scores.raw) | is.null(game.raw$game.html)) return("No game info")
+  if (game.raw$j.archive.id == 3575 | length(game.raw$scores.raw) < 5 | is.null(game.raw$scores.raw) | is.null(game.raw$game.html)) return("No game info")
 
-  game <- combineValuesAndScores(game.raw$scores.raw, game.raw$game.html, doubled)
+  if (game.raw$j.archive.id == 3576) game <- combineValuesAndScoresWatson()
+  else game <- combineValuesAndScores(game.raw$scores.raw, game.raw$game.html, doubled)
   game.with.variables <- addVariables(game, doubled, champ.days)
   game.with.variables$j.archive.id <- game.raw$j.archive.id
   cat("Processed game", game.raw$j.archive.id, "\n")
@@ -15,6 +15,24 @@ processGame <- function(game.raw, doubled, champ.days){
 combineValuesAndScores <- function(scores.raw, game.html, doubled){
   scores <- formatScores(scores.raw)
   values <- returnValues(game.html, doubled)
+  game <- data.frame(scores, values)
+
+  # Check for errors
+  if (any(game$round != game$round.1)) stop("Rounds don't line up")
+
+  # Return
+  return(game[, -which(colnames(game) == "round.1")])
+}
+
+# Function to combine running scores and question values for first Watson game
+combineValuesAndScoresWatson <- function(){
+  first.day <- which(sapply(games.raw, function(x) x$j.archive.id) == 3575)
+  second.day <- which(sapply(games.raw, function(x) x$j.archive.id) == 3576)
+
+  scores <- formatScores(games.raw[[second.day]]$scores.raw)
+  values1 <- returnValues(games.raw[[first.day]]$game.html, doubled=T)
+  values2 <- returnValues(games.raw[[second.day]]$game.html, doubled=T)
+  values <- rbind(values1[-nrow(values1), ], values2[-1, ])
   game <- data.frame(scores, values)
 
   # Check for errors
