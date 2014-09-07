@@ -24,7 +24,7 @@ shinyUI(
              ),
 
              tabPanel("Test Game State",
-                      showOutput("oddsviz", lib="nvd3"),
+                      div(showOutput("oddsviz", lib="nvd3"), style="height:350px"),
                       hr(),
                       fluidRow(
                         column(3,

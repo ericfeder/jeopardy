@@ -45,7 +45,6 @@ shinyServer(function(input, output, session) {
     fitted <- fitInputs(df.inputs, gbm.model, n.trees=4000)
     n1 <- visualizeOdds(fitted)
     n1$set(dom="oddsviz")
-    n1$chart(width=800)
     return(n1)
   })
 })
