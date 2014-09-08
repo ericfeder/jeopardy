@@ -8,7 +8,7 @@ game.info <- all.game.info %>%
          contestant.strings=sprintf("%s vs. %s vs. %s", left.contestant, center.contestant, right.contestant),
          num.and.date=sprintf("Game #%d, aired %s", episode.id, gsub(" 0", " ", format(date, format="%B %d, %Y"))),
          tournament.game=ifelse(tournament, gsub("\\..*", "", as.character(notes)), ""),
-         disclaimer=ifelse(tournament, "(Note: Odds estimates of tournament games are less reliable, see About tab for more)", "")) %>%
+         disclaimer=ifelse(tournament, "(Note: Odds estimates of tournament games are unreliable, see About tab for more)", "")) %>%
   select(season, j.archive.id, game.strings, contestant.strings, tournament.game, disclaimer, num.and.date, left.contestant, center.contestant, right.contestant)
 
 # Merge odds with data
