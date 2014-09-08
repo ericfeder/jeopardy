@@ -13,7 +13,7 @@ source("Scripts/Prepare_Data/download_games.R")
 games.raw <- lapply(game.info.rbind$j.archive.id, downloadGame)
 
 # Save to workspace
-save(games.raw, game.info.rbind, file="Workspaces/raw_data.RData")
+save(games.raw, game.info.rbind, file="data/workspaces/raw_data.RData")
 
 # Add game info
 source("Scripts/Prepare_Data/process_games.R")
@@ -41,4 +41,9 @@ modeling.points <- prepareForModeling(usable.points, all.game.info)
 all.game.points <- prepareForModeling(games.rbind[round != "FinalJeopardy"], all.game.info)
 
 # Save to workspace
-save(games.rbind, all.game.info, game.results, modeling.points, all.game.points, file="Workspaces/prepared_data.RData")
+save(games.rbind, all.game.info, game.results, modeling.points, all.game.points, file="data/workspaces/prepared_data.RData")
+
+# Write data as csv
+write.csv(all.game.info, "data/csv/game_info.csv", row.names=F)
+write.csv(game.results, "data/csv/game_results.csv", row.names=F)
+write.csv(games.rbind, "data/csv/game_states.csv", row.names=F)

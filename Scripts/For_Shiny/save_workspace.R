@@ -1,6 +1,6 @@
 # Load workspaces
-load("Workspaces/prepared_data.RData")
-load("Workspaces/gbm_model.RData")
+load("data/workspaces/prepared_data.RData")
+load("data/workspaces/gbm_model.RData")
 
 # Shrink size of gbm.model
 gbm.model[c("fit", "train.error", "valid.error", "oobag.improve", "estimator", "data")] <- NULL

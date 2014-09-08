@@ -16,4 +16,4 @@ evaluateModel(modeling.points, gbm.model.preds, units=0.05)
 gbm.preds.all <- predict(gbm.model, all.game.points, n.trees=4000, type="response")[, , 1]
 
 # Save to workspace
-save(gbm.model, gbm.preds.all, file="Workspaces/gbm_model.RData")
+save(gbm.model, gbm.preds.all, file="data/workspaces/gbm_model.RData")
