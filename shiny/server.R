@@ -20,7 +20,7 @@ shinyServer(function(input, output, session) {
 
   output$gameviztitle <- renderUI({
     game.info <- game.info[game.strings == input$game.description]
-    text <- sprintf("%s for %s", ifelse(input$var == "Scores", "Scores", "Win Probabilities"), game.info$num.and.date)
+    text <- sprintf("%s for %s", input$var, game.info$num.and.date)
     div(tags$h4(text),
         tags$h5(game.info$contestant.strings),
         tags$h5(game.info$tournament.game),
