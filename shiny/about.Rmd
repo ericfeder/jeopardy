@@ -16,9 +16,11 @@ To find each player's odds of winning at a given time, their scores are sorted, 
 * How many consecutive games has the top player won coming into today? (If he/she isn't the defending champion, this is just 0.)
 * How many consecutive games has the middle player won coming into today? (If he/she isn't the defending champion, this is just 0.)
 * How many consecutive games has the bottom player won coming into today? (If he/she isn't the defending champion, this is just 0.)
-* A measure of how close the top player is to being guaranteed a [lock-tie](http://www.j-archive.com/help.php#locktie) headed into Final Jeopardy! not taking daily doubles into account (calculated as `(top.score/2 - middle.score) / money.left` and bounded between 0 and 1)
-* A measure of how close the top player is to being guaranteed a [crush](http://www.j-archive.com/help.php#crush) headed into Final Jeopardy! not taking daily doubles into account (calculated as `(top.score*2/3 - middle.score) / money.left` and bounded between 0 and 1)
-* A measure of how close the top player is to being guaranteed the lead headed into Final Jeopardy! not taking daily doubles into account (calculated as `(top.score - middle.score) / money.left` and bounded between 0 and 1)
+* A measure of how close the top player is to being guaranteed a [lock-tie](http://www.j-archive.com/help.php#locktie) headed into Final Jeopardy! (calculated as `(top.score/2 - middle.score) / money.left`)
+* A measure of how close the top player is to being guaranteed a [crush](http://www.j-archive.com/help.php#crush) headed into Final Jeopardy! (calculated as `(top.score*2/3 - middle.score) / money.left`)
+* A measure of how close the top player is to being guaranteed the lead headed into Final Jeopardy! (calculated as `(top.score - middle.score) / money.left`)
+
+The final 3 variables are all bound between 0 and 1 and do not take daily doubles into account
 
 ### How did you build the model?
 After scraping and cleaning all the games, I eliminated all games that ended as a tie and all tournament games. I then used cross-validation to arrive at the best model, which turned out to be generalized boosted trees from the gbm package.
