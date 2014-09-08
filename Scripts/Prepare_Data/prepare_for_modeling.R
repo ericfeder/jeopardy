@@ -1,5 +1,5 @@
 # Function to set both min and max of vector
-source("Scripts/Prepare_Data/set_bounds.R")
+source("scripts/prepare_data/set_bounds.R")
 
 # Function to convert predoubled values and add info
 prepareForModeling <- function(points, game.info){

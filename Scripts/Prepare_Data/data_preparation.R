@@ -2,22 +2,22 @@
 library(data.table)
 
 # Download seasons
-source("Scripts/Prepare_Data/game_info.R")
+source("scripts/prepare_data/game_info.R")
 season.nums <- 1:30
 game.info <- lapply(season.nums, downloadSeason)
 game.info.rbind <- rbindlist(game.info)
 game.info.rbind <- game.info.rbind[order(date), ]
 
 # Download games
-source("Scripts/Prepare_Data/download_games.R")
+source("scripts/prepare_data/download_games.R")
 games.raw <- lapply(game.info.rbind$j.archive.id, downloadGame)
 
 # Save to workspace
 save(games.raw, game.info.rbind, file="data/workspaces/raw_data.RData")
 
 # Add game info
-source("Scripts/Prepare_Data/process_games.R")
-source("Scripts/Prepare_Data/additional_game_info.R")
+source("scripts/prepare_data/process_games.R")
+source("scripts/prepare_data/additional_game_info.R")
 all.game.info <- addInfo(game.info.rbind)
 returning.champion <- checkReturningChampion(sapply(games.raw, function(x) x$scores.raw$contestants_table$V2))
 all.game.info$num.champs <- returning.champion$num.champs
@@ -34,7 +34,7 @@ game.results <- data.table(game.results, t(apply(-game.results[, -1, with=F], 1,
 setnames(game.results, 5:7, c("left.rank", "center.rank", "right.rank"))
 
 # Subset data for model building
-source("Scripts/Prepare_Data/prepare_for_modeling.R")
+source("scripts/prepare_data/prepare_for_modeling.R")
 usable.j.archive.ids <- all.game.info[tournament == F, j.archive.id]
 usable.points <- games.rbind[round != "FinalJeopardy" & j.archive.id %in% usable.j.archive.ids & !is.na(winner.rank)]
 modeling.points <- prepareForModeling(usable.points, all.game.info)
