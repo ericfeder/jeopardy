@@ -5,6 +5,6 @@ library(data.table)
 load("shiny_workspace.RData")
 
 # Load functions
-source("Scripts/Visualize/visualize_game.R")
-source("Scripts/Visualize/visualize_odds.R")
-source("Scripts/fit_inputs.R")
+source("scripts/visualize/visualize_game.R")
+source("scripts/visualize/visualize_odds.R")
+source("scripts/fit_inputs.R")

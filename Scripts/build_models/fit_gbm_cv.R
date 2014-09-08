@@ -14,7 +14,7 @@ preds <- predict(gbm.model, modeling.points[j.archive.id %in% test.ids], n.trees
 preds.new <- predict(gbm.model.new, modeling.points[j.archive.id %in% test.ids], n.trees=500, type="response")[, , 1]
 
 # Evaluate calibration
-source("Scripts/Models/evaluate_model.R")
+source("scripts/build_models/evaluate_model.R")
 evaluateModel(modeling.points[j.archive.id %in% test.ids], preds, units=0.05)
 evaluateModel(modeling.points[j.archive.id %in% test.ids], preds.new, units=0.05)
 

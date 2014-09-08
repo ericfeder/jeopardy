@@ -12,5 +12,5 @@ game.info <- all.game.info %>%
   select(season, j.archive.id, game.strings, contestant.strings, tournament.game, disclaimer, num.and.date, left.contestant, center.contestant, right.contestant)
 
 # Merge odds with data
-source("Scripts/Models/merge_preds.R")
+source("scripts/build_models/merge_preds.R")
 game.odds <- mergePredsWithData(gbm.preds.all, all.game.points, game.results)

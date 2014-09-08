@@ -9,7 +9,7 @@ gbm.model <- gbm(factor(winner.rank) ~ middle.diff.adj + middle.ratio + bottom.d
 gbm.model.preds <- predict(gbm.model, modeling.points, n.trees=4000, type="response")[, , 1]
 
 # Evaluate calibration
-source("Scripts/Models/evaluate_model.R")
+source("scripts/build_models/evaluate_model.R")
 evaluateModel(modeling.points, gbm.model.preds, units=0.05)
 
 # Predict on all games
