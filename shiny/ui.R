@@ -18,7 +18,8 @@ shinyUI(
                         mainPanel(
                           div(
                               uiOutput("gameviztitle"),
-                              showOutput("gameviz", lib="morris")
+                              showOutput("gameviz", lib="morris"),
+                              uiOutput("gamevizfooter")
                           )
                         ),
                         fluid=F

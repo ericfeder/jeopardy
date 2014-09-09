@@ -23,6 +23,11 @@ shinyServer(function(input, output, session) {
     createTitleDiv(game.info, input$var)
   })
 
+  output$gamevizfooter <- renderUI({
+    tournament <- game.info[game.strings == input$game.description, tournament.game != ""]
+    createFooterDiv(tournament)
+  })
+
   observe({
     season.num <- seasons[season.string == input$season, season]
     season.strings <- game.info[season == season.num, game.strings]
