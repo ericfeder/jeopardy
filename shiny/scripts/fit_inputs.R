@@ -1,5 +1,5 @@
 # Function to set both min and max of vector
-source("Scripts/set_bounds.R")
+source("scripts/set_bounds.R")
 
 # Function to add variables and fit input
 fitInputs <- function(game, model, n.trees){
