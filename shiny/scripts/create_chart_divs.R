@@ -16,7 +16,7 @@ createTitleDiv <- function(game.info, var){
 
 # Function to create footer div
 createFooterDiv <- function(tournament){
-  if (tournament) text <- tags$span(style="font-size:8pt", "Note: Odds estimates of tournament games are unreliable, see About tab for more")
+  if (tournament) text <- tags$em(tags$span(style="font-size:10pt", "Note: Odds estimates of tournament games are unreliable, see About tab for more"))
   else text <- ""
   div <- div(text, style="text-align:center")
   return(div)
