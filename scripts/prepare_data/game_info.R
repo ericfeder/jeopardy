@@ -10,7 +10,7 @@ downloadSeason <- function(num){
   episodes.raw <- readHTMLTable(url, stringsAsFactors=F, header=F)[[1]]
 
   # Split into components
-  id.date.split <- strsplit(episodes.raw[, 1], ", aired.", fixed=F)
+  id.date.split <- strsplit(episodes.raw[, 1], ", aired.", fixed=F) #If line 15 fails, try this instead: id.date.split <- strsplit(episodes.raw[, 1], ", aired..", fixed=F)
   episode.id <- as.numeric(gsub("#", "", sapply(id.date.split, function(x) x[1])))
   date <- as.Date(sapply(id.date.split, function(x) x[2]))
   contestants <- strsplit(episodes.raw[, 2], " vs. ")
