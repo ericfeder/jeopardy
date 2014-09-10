@@ -1,3 +1,6 @@
+# Load workspace
+load("data/workspaces/prepared_data.RData")
+
 # Load package
 library(data.table)
 library(gbm)
