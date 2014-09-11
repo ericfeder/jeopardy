@@ -129,7 +129,7 @@ addVariables <- function(game, doubled, champ.days){
   game$dd.remaining[nrow(game) - 1] <- 0
 
   # Add ranks
-  ranks <- t(apply(-game[, 2:4], 1, rank, ties.method="first"))
+  ranks <- t(apply(-game[, 2:4], 1, rank, ties.method="random"))
   final.scores <- as.numeric(game[nrow(game), 2:4])
   if (sum(final.scores == max(final.scores)) > 1) winner.rank <-  NA
   else winner.rank <- ranks[, which.max(final.scores)]
