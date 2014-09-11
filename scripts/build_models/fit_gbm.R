@@ -1,3 +1,6 @@
+# Load function to fit model
+source("scripts/build_models/unbiased_predict_gbm.R")
+
 # Load workspace
 load("data/workspaces/prepared_data.RData")
 
@@ -9,14 +12,14 @@ library(gbm)
 gbm.model <- gbm(factor(winner.rank) ~ middle.diff.adj + middle.ratio + bottom.diff.adj + bottom.ratio + money.left.adj + dd.remaining + top.days + middle.days + bottom.days + lock.perc + crush.perc + lead.perc, data=modeling.points, distribution="multinomial", shrinkage=0.005, n.trees=5000, verbose=T, interaction.depth=2)
 
 # Predict
-gbm.model.preds <- predict(gbm.model, modeling.points, n.trees=4000, type="response")[, , 1]
+gbm.model.preds <- unbiasedPredictGBM(gbm.model, modeling.points, n.trees=4000)
 
 # Evaluate calibration
 source("scripts/build_models/evaluate_model.R")
 evaluateModel(modeling.points, gbm.model.preds, units=0.05)
 
 # Predict on all games
-gbm.preds.all <- predict(gbm.model, all.game.points, n.trees=4000, type="response")[, , 1]
+gbm.preds.all <- unbiasedPredictGBM(gbm.model, all.game.points, n.trees=4000)
 
 # Save to workspace
 save(gbm.model, gbm.preds.all, file="data/workspaces/gbm_model.RData")
