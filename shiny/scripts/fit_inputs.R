@@ -1,5 +1,6 @@
 # Function to set both min and max of vector
 source("scripts/set_bounds.R")
+source("scripts/unbiased_predict_gbm.R")
 
 # Function to add variables and fit input
 fitInputs <- function(game, model, n.trees){
@@ -33,7 +34,7 @@ fitInputs <- function(game, model, n.trees){
   game$lead.perc <- with(game, setBounds((top.score - middle.score) / money.left.adj, min=0, max=1, set.na=0))
 
   # Fit model
-  preds <- predict(model, game, n.trees=n.trees, type="response")[, , 1]
+  preds <- unbiasedPredictGBM(model, game, n.trees=n.trees)
   probs <- preds[ranks]
 
   # Return
