@@ -1,5 +1,5 @@
 # Function to properly handle tie games when fitting gbm
-predictGBM <- function(points, model, n.trees){
+predictGBM <- function(model, points, n.trees){
   # Fit model once
   first.run <- predict(model, points, n.trees=n.trees, type="response")[, , 1]
 
