@@ -28,7 +28,9 @@ To find each player's odds of winning at a given time, their scores are sorted, 
 * A measure of how close the top player is to being guaranteed a [crush](http://www.j-archive.com/help.php#crush) headed into Final Jeopardy! (calculated as `(top.score*2/3 - middle.score) / money.left`)
 * A measure of how close the top player is to being guaranteed the lead headed into Final Jeopardy! (calculated as `(top.score - middle.score) / money.left`)
 
-The final 3 variables are all bound between 0 and 1 and do not take daily doubles into account
+The final 3 variables are all bound between 0 and 1 and do not take daily doubles into account.
+
+Once these 11 variables were calculated, I fit 5,000 generalized boosting trees using the [gbm package](http://cran.r-project.org/web/packages/gbm/index.html) on all non-tie, non-tournament games. See the about tab of the [shiny app](https://jeopardy-win-probability.shinyapps.io/jwp-app/) for more explanations.
 
 **Handling Ties**  
 Since the first step in the process is to sort the scores of the three players, we run into issues when two or three of the players have the same score. If we arbitrarily assign one of the players to the top spot and the other player to the middle spot, the model will be biased toward the player we have designated as being on top, even if it knows that they have the same score. As a result, when finding the win probabilties of a game with two players tied, we find the predicted values twice, switching which spot we assigned to each of the tied players, and then average the values together.
