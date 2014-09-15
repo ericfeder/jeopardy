@@ -1,4 +1,4 @@
-# Load data and packages
+# Load packages
 library(shiny)
 library(data.table)
 library(rCharts)
