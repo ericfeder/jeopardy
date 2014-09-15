@@ -15,7 +15,7 @@ The model looks at the following aspects of a game state:
 For more details on how I used these features and the entire modeling process, see [here](https://github.com/ef2240/jeopardy-sabermetrics/blob/master/README.md#modeling).
 
 ### Why is the number of days for the defending champion capped at four?
-Since very long winning streaks are rare and were not even allowed before 2003, there isn't much data to precisely evaluate how strong a nine-day winner is compared to a four-day winner (for example). To avoid overfitting, I grouped all winners who have won at least four straight games together.
+Since very long winning streaks are rare and were not even allowed before 2003, there isn't much data to precisely evaluate how strong a nine-day winner is compared to a four-day winner, for example. To avoid overfitting, I grouped all winners who have won at least four straight games together.
 
 ### How did you build the model?
 After scraping and cleaning the data, I eliminated all games that ended as a tie and all tournament games. I then used cross-validation to arrive at the best model, which turned out to be generalized boosted trees from the [gbm package](http://cran.r-project.org/web/packages/gbm/index.html).
@@ -32,7 +32,7 @@ I just doubled all scores and the amount of money remaining so it would be on th
 I think it's balancing two things: how good it thinks each of the players are as well as their current position in the game. So a player who sweeps the first category is suddenly considered the favorite not because a $3,000 lead is so difficult to overcome, but because that player is probably very strong and will likely continue to do well.
 
 ### How precise do you think this is?
-Not very. If two players' odds are within 5% of each other, I wouldn't really be confident enough to say that either of them should be favored. Additionally, the model currenly has some known weaknesses. For example, the model doesn't differentiate between money won from regular clues and money won from daily doubles -- winning/losing a lot on a daily double tells us more about your luck and wagering strategy than it does your skill and should be treated differently. Additionally, the model doesn't know how well you did in your previous games beyond how many consecutive games you've won. So all 3-day winners are treated the same regardless of how they got to those wins, and all players are considered equals in the Tournament of Champions.
+Not very. If two players' odds are within 5% of each other, I wouldn't really be confident enough to say that either of them should be favored. The model also has some known weaknesses. For example, it doesn't differentiate between money won from regular clues and money won from daily doubles -- winning/losing a lot on a daily double tells us more about your luck and wagering strategy than it does your skill and should be treated differently. Additionally, it doesn't know how well you did in your previous games beyond how many consecutive games you've won. So all 3-day winners are treated the same regardless of how they got to those wins, and all players are considered equals in the Tournament of Champions.
 
 ### Where can I see more?
 See my code: https://github.com/ef2240/jeopardy-sabermetrics  
