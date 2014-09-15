@@ -31,10 +31,14 @@ To find each player's odds of winning at a given time, their scores are sorted, 
 The final 3 variables are all bound between 0 and 1 and do not take daily doubles into account
 
 **Handling Ties:**  
-Since the first step in the process to sort the scores of the three players, we run into issues when two or three of the players have the same score. If we arbitrarily assign one of the players to the top spot and the other player to the middle spot, the model will be biased toward the player we have designated as being on top, even if it knows that they have the same score. As a result, when finding the win probabilties of a game with two players tied, we find the predicted values twice, switching which spot we assigned to each of the tied players, and then average the values together.
+Since the first step in the process is to sort the scores of the three players, we run into issues when two or three of the players have the same score. If we arbitrarily assign one of the players to the top spot and the other player to the middle spot, the model will be biased toward the player we have designated as being on top, even if it knows that they have the same score. As a result, when finding the win probabilties of a game with two players tied, we find the predicted values twice, switching which spot we assigned to each of the tied players, and then average the values together.
 
-**Model evaluation:**
-There are a few
+**Model evaluation:**  
+There are a few methods I used to compare models:
+
+* How often did a player gain money yet their chances of winning went down? (should be as small as possible)
+* How often did players who were estimated to have an N% chance of winning actually go on to win (should be as close as possible to N for all values of N)
+* Assuming cross-validation was done properly, `prod(eventual-winners-odds)` should be as large as possible
 
 ### Acknowledgments
 Thanks to Alan and Michelle for their help.
