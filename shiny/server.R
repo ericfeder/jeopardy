@@ -4,10 +4,6 @@ library(data.table)
 library(rCharts)
 library(dplyr)
 library(gbm)
-library(mailR)
-
-# Send email when app is opened
-send.mail("<shiny@jwp-app.com>", "<federer490@gmail.com>", "[JWP-shiny-app] Site opened", as.character(Sys.time()), smtp=list(host.name="aspmx.l.google.com", port=25))
 
 # Server function
 shinyServer(function(input, output, session) {
