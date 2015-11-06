@@ -1,4 +1,4 @@
-jeopardy-sabermetrics
+Jeopardy Win Probability
 =====================
 
 See the corresponding Shiny app: https://jeopardy-win-probability.shinyapps.io/jwp-app/
