@@ -1,5 +1,6 @@
 # Load packages
 library(dplyr)
+library(data.table)
 
 # Prepare rows for dropdowns and game info
 seasons <- all.game.info %>% group_by(season) %>% summarize(season.string=sprintf("Season %d (%d-%d)", season, year(min(date)), year(max(date))))
