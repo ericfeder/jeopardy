@@ -3,7 +3,7 @@ library(data.table)
 
 # Download seasons
 source("scripts/prepare_data/game_info.R")
-season.nums <- 1:30
+season.nums <- 1:31
 game.info <- lapply(season.nums, downloadSeason)
 game.info.rbind <- rbindlist(game.info)
 game.info.rbind <- game.info.rbind[order(date), ]

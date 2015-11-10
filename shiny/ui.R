@@ -8,8 +8,8 @@ shinyUI(
                       sidebarLayout(
                         # Input Panel
                         sidebarPanel(
-                          selectInput("season", label="Season:", choices=seasons$season.string, selected=seasons$season.string[30]),
-                          selectInput("game.description", label="Game:", choices=game.info[season == 30, game.strings], selected=game.info[season == 30, game.strings][1]),
+                          selectInput("season", label="Season:", choices=seasons$season.string, selected=seasons$season.string[31]),
+                          selectInput("game.description", label="Game:", choices=game.info[season == 31, game.strings], selected=game.info[season == 31, game.strings][1]),
                           selectInput("var", choices=c("Win Probabilities", "Scores"), label="Metric:"),
                           width=3
                         ),
